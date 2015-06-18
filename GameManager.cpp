@@ -59,3 +59,7 @@ void GameManager::dealCards() {
         }
     }
 }
+
+void GameManager::setFirstPlayer(const Player* firstP) {
+    firstToPlay = firstP;
+}

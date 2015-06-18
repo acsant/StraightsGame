@@ -3,6 +3,7 @@
 //
 
 #include "Player.h"
+#include "GameManager.h"
 
 int next_id = 1;
 
@@ -15,3 +16,14 @@ PlayerID Player::getPlayerId() const {
 Player::~Player() {
 
 }
+
+bool Player::getPlaysFirst() const {
+    return playsFirst;
+}
+
+void Player::setPlaysFirst() {
+    playsFirst = true;
+    GameManager* gm = GameManager::getInstace();
+    gm->setFirstPlayer(this);
+}
+

@@ -13,6 +13,9 @@ ComputerPlayer::ComputerPlayer(const PlayerID& id_): Player(id_) {
 }
 
 void ComputerPlayer::addCards(Card * c) {
+    if (c->getSuit() == SPADE && c->getRank() == SEVEN) {
+        setPlaysFirst();
+    }
     cards_at_hand->insertCard(c);
 }
 

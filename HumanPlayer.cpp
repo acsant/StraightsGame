@@ -13,6 +13,9 @@ Hand * HumanPlayer::getHand() const {
 }
 
 void HumanPlayer::addCards(Card * c) {
+    if (c->getSuit() == SPADE && c->getRank() == SEVEN) {
+        setPlaysFirst();
+    }
     cards_at_hand->insertCard(c);
 }
 
