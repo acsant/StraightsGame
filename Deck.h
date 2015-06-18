@@ -24,7 +24,7 @@ public:
     static Deck * getInstance();
     void shuffle();
     void setSeed(int);
-    static void initDeck();
+    void initDeck();
     ~Deck();
 };
 

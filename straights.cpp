@@ -13,10 +13,10 @@ int main(int argc, char* argv[]) {
     gm->createGame();
     for (int i = 0; i < 4; i++) {
         string temp_type;
-        cout << "Is player " << i << "a human(h) or a computer(c)?" << endl;
+        cout << "Is player " << i << " a human(h) or a computer(c)?" << endl;
         cin >> temp_type;
         player_types.push_back(temp_type);
     }
-
+    gm->addPlayersToGame(player_types);
     return 0;
 }

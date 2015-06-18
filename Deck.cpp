@@ -51,7 +51,8 @@ void Deck::setSeed(int _seed) {
 void Deck::initDeck() {
     for (int i = 0; i < SUIT_COUNT; i++) {
         for (int j = 0; j < RANK_COUNT; j++) {
-            Card card = Card(Suit(i), Rank(j));
+            Card * card = new Card(Suit(i), Rank(j));
+            cards_.push_back(card);
         }
     }
 }

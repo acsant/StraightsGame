@@ -3,6 +3,8 @@
 //
 
 #include "GameManager.h"
+#include "ComputerPlayer.h"
+#include "HumanPlayer.h"
 
 int GameManager::shuffle_seed = 0;
 bool GameManager::created = false;
@@ -33,5 +35,15 @@ void GameManager::setSeed(int seed_) {
 }
 
 void GameManager::addPlayersToGame(std::vector<std::string> type) {
+    for (int i = 0; i < type.size(); i++) {
+        PlayerID id;
+        Player* player;
+        if (type[i] == "c") {
+            player = new ComputerPlayer(id);
 
+        } else {
+            player = new HumanPlayer(id);
+        }
+        players.push_back(player);
+    }
 }
