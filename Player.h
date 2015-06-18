@@ -7,17 +7,15 @@
 
 #include <iostream>
 #include "Hand.h"
+#include "PlayerID.h"
 
 class Player {
 private:
-    std::string name;
-    int player_id;
-    Hand * cards_at_hand;
+    PlayerID player_id;
 public:
-    std::string getName() const;
-    int getPlayerId() const;
-    Player(std::string, int);
-    Hand * getHand() const;
+    virtual void addCards(Card*) = 0;
+    PlayerID getPlayerId() const;
+    explicit Player(const PlayerID&);
     ~Player();
 };
 

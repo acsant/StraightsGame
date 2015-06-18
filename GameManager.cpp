@@ -31,3 +31,7 @@ void GameManager::createGame() {
 void GameManager::setSeed(int seed_) {
     shuffle_seed = seed_;
 }
+
+void GameManager::addPlayersToGame(std::vector<std::string> type) {
+
+}
