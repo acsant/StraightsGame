@@ -61,5 +61,9 @@ void GameManager::dealCards() {
 }
 
 void GameManager::setFirstPlayer(const Player* firstP) {
-    firstToPlay = firstP;
+    current_turn = firstP;
+}
+
+void GameManager::startGamePlay() {
+    std::cout << "A new round begins. It's player " << current_turn->getPlayerId().player_id << "'s turn to play." << std::endl;
 }

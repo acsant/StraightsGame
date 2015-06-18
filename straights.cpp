@@ -19,5 +19,6 @@ int main(int argc, char* argv[]) {
     }
     gm->addPlayersToGame(player_types);
     gm->dealCards();
+    gm->startGamePlay();
     return 0;
 }

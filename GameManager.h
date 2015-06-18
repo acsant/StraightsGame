@@ -14,7 +14,7 @@ private:
     static bool created;
     static GameManager * gm;
     static int shuffle_seed;
-    const Player* firstToPlay;
+    const Player* current_turn;
     Deck * deck;
     std::vector<Player*> players;
     GameManager();
@@ -25,7 +25,9 @@ public:
     void createGame();
     void setSeed(int);
     void dealCards();
+    void startGamePlay();
     void setFirstPlayer(const Player*);
+
     ~GameManager();
 };
 
