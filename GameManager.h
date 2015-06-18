@@ -23,6 +23,7 @@ public:
     void addPlayersToGame(std::vector<std::string>);
     void createGame();
     void setSeed(int);
+    void dealCards();
     ~GameManager();
 };
 

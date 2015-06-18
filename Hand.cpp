@@ -4,7 +4,9 @@
 
 #include "Hand.h"
 
-Hand::Hand() { }
+Hand::Hand() {
+
+}
 
 void Hand::insertCard(Card* toInsert) {
     card_collection.push_back(toInsert);

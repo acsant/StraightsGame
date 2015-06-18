@@ -25,6 +25,7 @@ public:
     void shuffle();
     void setSeed(int);
     void initDeck();
+    std::vector<Card*> getCards();
     ~Deck();
 };
 

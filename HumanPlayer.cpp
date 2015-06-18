@@ -4,7 +4,9 @@
 
 #include "HumanPlayer.h"
 
-HumanPlayer::HumanPlayer(const PlayerID & id_): Player(id_) { }
+HumanPlayer::HumanPlayer(const PlayerID & id_): Player(id_) {
+    cards_at_hand = new Hand();
+}
 
 Hand * HumanPlayer::getHand() const {
     return cards_at_hand;

@@ -8,7 +8,9 @@ Hand * ComputerPlayer::getHand() const {
     return cards_at_hand;
 }
 
-ComputerPlayer::ComputerPlayer(const PlayerID& id_): Player(id_) { }
+ComputerPlayer::ComputerPlayer(const PlayerID& id_): Player(id_) {
+    cards_at_hand = new Hand();
+}
 
 void ComputerPlayer::addCards(Card * c) {
     cards_at_hand->insertCard(c);

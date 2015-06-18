@@ -5,7 +5,6 @@
 #include "PlayerID.h"
 
 int PlayerID::next_id = 1;
-
 PlayerID::PlayerID() {
     if (next_id > max_num) {
         exit(1);

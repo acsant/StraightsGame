@@ -56,3 +56,7 @@ void Deck::initDeck() {
         }
     }
 }
+
+std::vector<Card*> Deck::getCards() {
+    return cards_;
+}
