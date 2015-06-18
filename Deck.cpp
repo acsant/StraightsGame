@@ -22,7 +22,9 @@ Deck * Deck::getInstance() {
     }
 }
 
-Deck::Deck() { }
+Deck::Deck() {
+    Deck::initDeck();
+}
 
 Deck::~Deck() {
     created = false;
@@ -44,4 +46,12 @@ void Deck::shuffle() {
 
 void Deck::setSeed(int _seed) {
     seed = _seed;
+}
+
+void Deck::initDeck() {
+    for (int i = 0; i < SUIT_COUNT; i++) {
+        for (int j = 0; j < RANK_COUNT; j++) {
+            Card card = Card(Suit(i), Rank(j));
+        }
+    }
 }

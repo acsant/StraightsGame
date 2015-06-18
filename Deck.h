@@ -6,6 +6,8 @@
 #define STRAIGHTS_DECK_H
 
 #include <stddef.h>
+#include <iostream>
+#include <string>
 #include <vector>
 #include "Card.h"
 #include <random>
@@ -22,6 +24,7 @@ public:
     static Deck * getInstance();
     void shuffle();
     void setSeed(int);
+    static void initDeck();
     ~Deck();
 };
 

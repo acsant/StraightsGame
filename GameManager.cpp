@@ -4,6 +4,7 @@
 
 #include "GameManager.h"
 
+int GameManager::shuffle_seed = 0;
 bool GameManager::created = false;
 GameManager * GameManager::gm = NULL;
 
@@ -21,3 +22,12 @@ GameManager::~GameManager() {
     created = false;
 }
 
+void GameManager::createGame() {
+    deck = Deck::getInstance();
+    deck->setSeed(shuffle_seed);
+    deck->shuffle();
+}
+
+void GameManager::setSeed(int seed_) {
+    shuffle_seed = seed_;
+}

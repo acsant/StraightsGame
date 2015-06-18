@@ -6,15 +6,20 @@
 #define _GAMEMANAGER_H
 
 #include <stddef.h>
+#include "Deck.h"
 
 class GameManager {
 private:
     static bool created;
     static GameManager * gm;
+    static int shuffle_seed;
+    Deck * deck;
     GameManager();
 
 public:
     static GameManager * getInstace();
+    void createGame();
+    void setSeed(int);
     ~GameManager();
 };
 
