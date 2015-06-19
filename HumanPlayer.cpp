@@ -4,21 +4,11 @@
 
 #include "HumanPlayer.h"
 
-HumanPlayer::HumanPlayer(const PlayerID & id_): Player(id_) {
-    cards_at_hand = new Hand();
+HumanPlayer::HumanPlayer() {
+
 }
 
-Hand * HumanPlayer::getHand() const {
-    return cards_at_hand;
-}
-
-void HumanPlayer::addCards(Card * c) {
-    if (c->getSuit() == SPADE && c->getRank() == SEVEN) {
-        setPlaysFirst();
-    }
-    cards_at_hand->insertCard(c);
-}
+void HumanPlayer::play() {}
 
 HumanPlayer::~HumanPlayer() {
-    delete cards_at_hand;
 }

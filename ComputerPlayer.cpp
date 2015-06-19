@@ -4,21 +4,11 @@
 
 #include "ComputerPlayer.h"
 
-Hand * ComputerPlayer::getHand() const {
-    return cards_at_hand;
+
+ComputerPlayer::ComputerPlayer() {
+
 }
 
-ComputerPlayer::ComputerPlayer(const PlayerID& id_): Player(id_) {
-    cards_at_hand = new Hand();
-}
+void ComputerPlayer::play() { }
 
-void ComputerPlayer::addCards(Card * c) {
-    if (c->getSuit() == SPADE && c->getRank() == SEVEN) {
-        setPlaysFirst();
-    }
-    cards_at_hand->insertCard(c);
-}
-
-ComputerPlayer::~ComputerPlayer() {
-    delete cards_at_hand;
-}
+ComputerPlayer::~ComputerPlayer() { }

@@ -5,7 +5,7 @@
 #include "Hand.h"
 
 Hand::Hand() {
-
+    card_collection = std::vector<Card*>();
 }
 
 void Hand::insertCard(Card* toInsert) {

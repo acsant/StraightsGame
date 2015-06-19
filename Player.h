@@ -8,17 +8,22 @@
 #include <iostream>
 #include "Hand.h"
 #include "PlayerID.h"
+#include "PlayerStrategy.h"
 
 class Player {
 private:
     PlayerID player_id;
     bool playsFirst = false;
+    Hand * cards_at_hand;
+    PlayerStrategy* strategy;
 public:
-    virtual void addCards(Card*) = 0;
     bool getPlaysFirst() const;
     PlayerID getPlayerId() const;
-    explicit Player(const PlayerID&);
+    explicit Player(const PlayerID&, PlayerStrategy*);
+    Hand * getHand() const;
+    void addCards(Card*);
     ~Player();
+    void reassessStrategy();
 protected:
     void setPlaysFirst();
 };

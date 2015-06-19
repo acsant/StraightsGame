@@ -7,14 +7,13 @@
 
 #include "Hand.h"
 #include "Player.h"
+#include "PlayerStrategy.h"
 
-class ComputerPlayer: public Player {
-private:
-    Hand * cards_at_hand;
+class ComputerPlayer: public PlayerStrategy {
+
 public:
-    Hand * getHand() const;
-    ComputerPlayer(const PlayerID&);
-    void addCards(Card*);
+    void play();
+    ComputerPlayer();
     ~ComputerPlayer();
 };
 

@@ -7,14 +7,16 @@
 
 int next_id = 1;
 
-Player::Player(const PlayerID& id_): player_id(id_) { }
+Player::Player(const PlayerID& id_, PlayerStrategy* strat): player_id(id_), strategy(strat) {
+    cards_at_hand = new Hand();
+}
 
 PlayerID Player::getPlayerId() const {
     return player_id;
 }
 
 Player::~Player() {
-
+    delete cards_at_hand;
 }
 
 bool Player::getPlaysFirst() const {
@@ -27,3 +29,13 @@ void Player::setPlaysFirst() {
     gm->setFirstPlayer(this);
 }
 
+Hand * Player::getHand() const {
+    return cards_at_hand;
+}
+
+void Player::addCards(Card * c) {
+    if (c->getSuit() == SPADE && c->getRank() == SEVEN) {
+        setPlaysFirst();
+    }
+    cards_at_hand->insertCard(c);
+}
