@@ -8,7 +8,6 @@
 class PlayerStrategy {
 public:
     virtual void play() = 0;
-
 };
 
 #endif //STRAIGHTS_PLAYERSTRATEGY_H

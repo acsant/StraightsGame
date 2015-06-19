@@ -19,4 +19,5 @@ public:
     ~Hand();
 };
 
+std::ostream &operator<<(std::ostream &, const Card &);
 #endif //STRAIGHTS_HAND_H

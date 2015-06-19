@@ -25,7 +25,7 @@ bool Player::getPlaysFirst() const {
 
 void Player::setPlaysFirst() {
     playsFirst = true;
-    GameManager* gm = GameManager::getInstace();
+    GameManager* gm = GameManager::getInstance();
     gm->setFirstPlayer(this);
 }
 
@@ -38,4 +38,8 @@ void Player::addCards(Card * c) {
         setPlaysFirst();
     }
     cards_at_hand->insertCard(c);
+}
+
+PlayerStrategy *Player::getStrategy() const {
+    return strategy;
 }

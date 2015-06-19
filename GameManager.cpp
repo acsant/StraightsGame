@@ -10,7 +10,7 @@ int GameManager::shuffle_seed = 0;
 bool GameManager::created = false;
 GameManager * GameManager::gm = NULL;
 
-GameManager* GameManager::getInstace() {
+GameManager* GameManager::getInstance() {
     if (!created) {
         gm = new GameManager();
         created = true;
@@ -19,7 +19,11 @@ GameManager* GameManager::getInstace() {
         return gm;
     }
 }
-GameManager::GameManager() { }
+GameManager::GameManager() {
+    for (int i = 0; i < SUIT_COUNT; i++) {
+        cards_on_table.insert(std::pair<Suit, std::vector<Rank>* >(Suit(i), new std::vector<Rank>()));
+    }
+}
 GameManager::~GameManager() {
     created = false;
 }
@@ -67,4 +71,50 @@ void GameManager::setFirstPlayer(const Player* firstP) {
 
 void GameManager::startGamePlay() {
     std::cout << "A new round begins. It's player " << current_turn->getPlayerId().player_id << "'s turn to play." << std::endl;
+    current_turn->getStrategy()->play();
+}
+
+void GameManager::addCardToTable(Card *card) {
+    (cards_on_table.find(card->getSuit()))->second->push_back(card->getRank());
+}
+
+void GameManager::sortCardsOnTable() {
+    for (std::map<Suit, std::vector<Rank>* >::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
+        std::sort(it->second->begin(), it->second->end());
+    }
+}
+
+std::map<Suit, std::vector<Rank> *> GameManager::getCardsOnTable() const {
+    return cards_on_table;
+}
+
+std::string GameManager::indexToSuit (int i) const {
+    switch (i) {
+        case 0:
+            return  "Clubs";
+        case 1:
+            return  "Diamonds";
+        case 2:
+            return  "Hearts";
+        case 3:
+            return  "Spades";
+        default:
+            return  "";
+    }
+}
+
+std::string GameManager::indexToRank (int i) const {
+    std::istringstream ss (i + 1);
+    switch (i) {
+        case 0:
+            return  "A";
+        case 10:
+            return  "J";
+        case 11:
+            return  "Q";
+        case 12:
+            return  "K";
+        default:
+            return  ss.str();
+    }
 }

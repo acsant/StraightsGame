@@ -23,6 +23,7 @@ public:
     Hand * getHand() const;
     void addCards(Card*);
     ~Player();
+    PlayerStrategy* getStrategy() const;
     void reassessStrategy();
 protected:
     void setPlaysFirst();

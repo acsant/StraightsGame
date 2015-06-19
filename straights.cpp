@@ -6,7 +6,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     vector<string> player_types;
-    GameManager* gm = GameManager::getInstace();
+    GameManager* gm = GameManager::getInstance();
     if (argv[1]) {
         gm->setSeed((int) *argv[1]);
     }
