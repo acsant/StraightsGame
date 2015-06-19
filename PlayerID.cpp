@@ -18,3 +18,23 @@ PlayerID::PlayerID(int id_) {
     }
     player_id = id_;
 }
+
+bool operator== (const PlayerID &a, const PlayerID &b) {
+    return a.player_id == b.player_id;
+}
+
+bool operator!= (const PlayerID &a, const PlayerID &b) {
+    return !(a==b);
+}
+bool operator< (const PlayerID &a, const PlayerID &b) {
+    return a.player_id < b.player_id;
+}
+bool operator<= (const PlayerID &a, const PlayerID &b) {
+    return (a<b) || (a==b);
+}
+bool operator> (const PlayerID &a, const PlayerID &b) {
+    return !(a<=b);
+}
+bool operator>= (const PlayerID &a, const PlayerID &b) {
+    return !(a<b);
+}
