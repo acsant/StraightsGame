@@ -23,6 +23,8 @@ GameManager::GameManager() {
     for (int i = 0; i < SUIT_COUNT; i++) {
         cards_on_table.insert(std::pair<Suit, std::vector<Rank>* >(Suit(i), new std::vector<Rank>()));
     }
+    legalPlays = new std::vector<std::string>();
+    legalPlays->push_back("7S");
 }
 GameManager::~GameManager() {
     created = false;
@@ -121,4 +123,12 @@ std::string GameManager::indexToRank (int i) const {
 
 const Player* GameManager::getCurrentPlayer() const {
     return current_turn;
+}
+
+std::vector<std::string>* GameManager::getLegalPlays() const {
+    return legalPlays;
+}
+
+void GameManager::addLegalPlay(std::string play) {
+    legalPlays->push_back(play);
 }

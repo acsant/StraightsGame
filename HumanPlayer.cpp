@@ -28,5 +28,10 @@ void HumanPlayer::play() {
         }
         std::cout << std::endl;
     }
-    std::cout << "Your hand: " << *(gm->getCurrentPlayer()->getHand());
+    std::cout << "Your hand: " << *(gm->getCurrentPlayer()->getHand()) << std::endl;
+    std::cout << "Legal plays: ";
+    for (int i = 0; i < gm->getLegalPlays()->size(); i++) {
+        std::cout << gm->getLegalPlays()->at(i) << " ";
+    }
+    std::cout << std::endl;
 }

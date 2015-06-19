@@ -3,6 +3,7 @@
 using namespace std;
 
 #include "GameManager.h"
+#include "Command.h"
 
 int main(int argc, char* argv[]) {
     vector<string> player_types;
@@ -20,5 +21,13 @@ int main(int argc, char* argv[]) {
     gm->addPlayersToGame(player_types);
     gm->dealCards();
     gm->startGamePlay();
+    Command c;
+    while (!cin.eof()) {
+        if (cin >> c) {
+            if (c.type == PLAY) {
+
+            }
+        }
+    }
     return 0;
 }

@@ -27,10 +27,13 @@ private:
     static int shuffle_seed;
     const Player* current_turn;
     Deck * deck;
+    std::vector<std::string>* legalPlays;
     std::map<PlayerID, Player*> players;
     GameManager();
 
 public:
+    std::vector<std::string>* getLegalPlays() const;
+    void addLegalPlay(std::string) ;
     static GameManager *getInstance();
     void addPlayersToGame(std::vector<std::string>);
     void createGame();
