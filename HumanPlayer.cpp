@@ -28,4 +28,5 @@ void HumanPlayer::play() {
         }
         std::cout << std::endl;
     }
+    std::cout << "Your hand: " << *(gm->getCurrentPlayer()->getHand());
 }

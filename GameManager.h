@@ -40,6 +40,7 @@ public:
     void setFirstPlayer(const Player*);
     void addCardToTable(Card*);
     void sortCardsOnTable();
+    const Player* getCurrentPlayer() const;
     std::map<Suit, std::vector<Rank>*> getCardsOnTable() const;
     std::string indexToRank(int) const;
     std::string indexToSuit(int) const;

@@ -118,3 +118,7 @@ std::string GameManager::indexToRank (int i) const {
             return  ss.str();
     }
 }
+
+const Player* GameManager::getCurrentPlayer() const {
+    return current_turn;
+}

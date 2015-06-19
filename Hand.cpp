@@ -27,3 +27,14 @@ Hand::~Hand() {
         delete (*it);
     }
 }
+
+std::ostream &operator<<(std::ostream & sout, const Hand & hand) {
+    for (int i = 0; i < hand.card_collection.size(); i++) {
+        sout << *(hand.card_collection[i]) << " ";
+    }
+    return sout;
+}
+
+int Hand::numberOfCards() const {
+    return card_collection.size();
+}
