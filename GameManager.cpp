@@ -44,17 +44,19 @@ void GameManager::addPlayersToGame(std::vector<std::string> type) {
         } else {
             player = new HumanPlayer(id);
         }
-        players.push_back(player);
+        players.insert(std::pair<PlayerID, Player*>(id, player));
     }
 }
 
 void GameManager::dealCards() {
     int num_cards = 13;
     std::vector<Card*> deck_of_cards = deck->getCards();
-    for (int i = 0; i < players.size(); i++) {
+    int i = 0;
+    for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
         for (int j = 0; j < num_cards; j++) {
-            players[i]->addCards(deck_of_cards[i*num_cards + j]);
+            it->second->addCards(deck_of_cards[i*num_cards + j]);
         }
+        i++;
     }
 }
 

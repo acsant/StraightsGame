@@ -6,6 +6,7 @@
 #define _GAMEMANAGER_H
 
 #include <stddef.h>
+#include <map>
 #include "Deck.h"
 #include "Player.h"
 
@@ -16,7 +17,7 @@ private:
     static int shuffle_seed;
     const Player* current_turn;
     Deck * deck;
-    std::vector<Player*> players;
+    std::map<PlayerID, Player*> players;
     GameManager();
 
 public:

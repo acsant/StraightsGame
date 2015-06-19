@@ -23,4 +23,16 @@ protected:
     void setPlaysFirst();
 };
 
+bool operator== (const PlayerID &a, const PlayerID &b);
+
+bool operator!= (const PlayerID &a, const PlayerID &b);
+
+bool operator< (const PlayerID &a, const PlayerID &b);
+
+bool operator<= (const PlayerID &a, const PlayerID &b);
+
+bool operator> (const PlayerID &a, const PlayerID &b);
+
+bool operator>= (const PlayerID &a, const PlayerID &b);
+
 #endif //STRAIGHTS_PLAYER_H
