@@ -5,6 +5,7 @@
 #include "GameManager.h"
 #include "ComputerPlayer.h"
 #include "HumanPlayer.h"
+#include "algorithm"
 
 int GameManager::shuffle_seed = 0;
 bool GameManager::created = false;
@@ -30,12 +31,23 @@ GameManager::GameManager() {
 }
 GameManager::~GameManager() {
     created = false;
+    delete current_turn;
+    delete deck;
+    delete legalPlays;
+    for (std::map<Suit, std::vector<Rank>*>::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
+        delete it->second;
+    }
+    for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
+        delete it->second;
+    }
+    delete gm;
 }
 
 void GameManager::createGame() {
     deck = Deck::getInstance();
     deck->setSeed(shuffle_seed);
     deck->shuffle();
+    dealCards();
 }
 
 void GameManager::setSeed(int seed_) {
@@ -145,16 +157,20 @@ void GameManager::updateLegalCards(Card* c) {
     std::string toAddLow;
     if (c->getRank() - 1 >= 0) {
         toAddLow = indexToRank(c->getRank() - 1) + indexToSuit(c->getSuit()).at(0);
-        if (!isLegalPlay(new Card(Suit(c->getSuit()), Rank(c->getRank() - 1)))) {
+        Card*lowCheck = new Card(Suit(c->getSuit()), Rank(c->getRank() - 1));
+        if (!isLegalPlay(lowCheck)) {
             legalPlays->push_back(toAddLow);
         }
+        delete lowCheck;
     }
     std::string toAddHigh;
     if (c->getRank() + 1 < 13) {
         toAddHigh = indexToRank(c->getRank() + 1) + indexToSuit(c->getSuit()).at(0);
-        if (!isLegalPlay(new Card(Suit(c->getSuit()), Rank(c->getRank() + 1)))) {
+        Card* highCheck = new Card(Suit(c->getSuit()), Rank(c->getRank() + 1));
+        if (!isLegalPlay(highCheck)) {
             legalPlays->push_back(toAddHigh);
         }
+        delete highCheck;
     }
 
 }
@@ -183,4 +199,16 @@ void GameManager::setNextPlayer() {
     int temp_id = current_turn->getPlayerId().player_id;
     PlayerID next_id ((temp_id % 4) + 1);
     current_turn = players[next_id];
+}
+
+void GameManager::resetRound() {
+    delete deck;
+    createGame();
+    endGame = false;
+    legalPlays->clear();
+    for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
+        it->second->removePlaysFirst();
+        it->second->addRound();
+    }
+    current_turn->resetPlayer();
 }

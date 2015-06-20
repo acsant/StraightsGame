@@ -15,12 +15,6 @@
 
 class GameManager {
 private:
-public:
-    const std::map<Suit, std::vector<Rank> *> &getCards_on_table() const {
-        return cards_on_table;
-    }
-
-private:
     std::map<Suit, std::vector<Rank>*> cards_on_table;
     bool endGame;
     static bool created;
@@ -56,6 +50,7 @@ public:
     void setEndGame();
     void setNextPlayer();
     std::map<PlayerID, Player*> getPlayers() const;
+    void resetRound();
     ~GameManager();
 };
 

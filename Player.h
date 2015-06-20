@@ -19,7 +19,6 @@ private:
     PlayerStrategy* strategy;
     std::vector<Card*> discards;
     int gameScore;
-
     std::vector<int> roundScore;
 public:
     bool getPlaysFirst() const;
@@ -37,6 +36,10 @@ public:
     int getGameScore() const;
     std::vector<int> getRoundScores() const;
     void setGameScore(int);
+    void removePlaysFirst();
+    void resetPlayer();
+    void addRound();
+
 };
 
 bool operator== (const PlayerID &a, const PlayerID &b);

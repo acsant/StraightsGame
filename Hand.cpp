@@ -52,3 +52,8 @@ bool Hand::contains (Card& c) {
     }
     return false;
 }
+
+void Hand::removeAll() {
+    card_collection.clear();
+
+}

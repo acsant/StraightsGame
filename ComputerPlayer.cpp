@@ -30,6 +30,7 @@ void ComputerPlayer::play() {
         std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " discards " << *currentCard << "." << std::endl;
         gm->getCurrentPlayer()->getHand()->removeCard(currentCard);
         gm->getCurrentPlayer()->discard(currentCard);
+        gm->getCurrentPlayer()->awardPoints(currentCard->getRank() + 1);
     }
     gm->setNextPlayer();
 }

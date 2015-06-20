@@ -20,6 +20,7 @@ public:
     bool contains (Card& c);
     std::vector<Card*> getCards() const;
     Card * removeCard(Card*);
+    void removeAll();
     ~Hand();
 };
 

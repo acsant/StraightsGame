@@ -28,6 +28,10 @@ Deck::Deck() {
 
 Deck::~Deck() {
     created = false;
+    for (std::vector<Card*>::iterator it = cards_.begin(); it != cards_.end(); it++) {
+        delete *it;
+    }
+    //delete d;
 }
 
 void Deck::shuffle() {
@@ -51,7 +55,7 @@ void Deck::setSeed(int _seed) {
 void Deck::initDeck() {
     for (int i = 0; i < SUIT_COUNT; i++) {
         for (int j = 0; j < RANK_COUNT; j++) {
-            Card * card = new Card(Suit(i), Rank(j));
+            Card* card = new Card(Suit(i), Rank(j));
             cards_.push_back(card);
         }
     }

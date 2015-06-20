@@ -10,6 +10,7 @@ int next_id = 1;
 Player::Player(const PlayerID& id_, PlayerStrategy* strat): player_id(id_), strategy(strat) {
     cards_at_hand = new Hand();
     playsFirst = false;
+    roundScore.push_back(0);
 }
 
 PlayerID Player::getPlayerId() const {
@@ -18,6 +19,10 @@ PlayerID Player::getPlayerId() const {
 
 Player::~Player() {
     delete cards_at_hand;
+    delete strategy;
+    for (std::vector<Card*>::iterator it = discards.begin(); it != discards.end(); it++) {
+        delete *it;
+    }
 }
 
 bool Player::getPlaysFirst() const {
@@ -56,7 +61,8 @@ void Player::reassessStrategy() {
 
 void Player::awardPoints(int points) {
     GameManager* gm = GameManager::getInstance();
-    roundScore[gm->getCurrentRound()] = roundScore[gm->getCurrentRound()] + points;
+    int newPoints = roundScore[gm->getCurrentRound() - 1] + points;
+    roundScore[gm->getCurrentRound() - 1] = newPoints;
 }
 
 std::vector<Card *> Player::getDiscards() const {
@@ -73,4 +79,19 @@ void Player::setGameScore(int totalScore) {
 
 int Player::getGameScore() const {
     return gameScore;
+}
+
+void Player::removePlaysFirst() {
+    playsFirst = false;
+}
+
+void Player::resetPlayer() {
+    cards_at_hand->removeAll();
+    discards.clear();
+}
+
+
+void Player::addRound() {
+    roundScore.push_back(0);
+
 }
