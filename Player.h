@@ -16,8 +16,10 @@ private:
     bool playsFirst = false;
     Hand * cards_at_hand;
     PlayerStrategy* strategy;
+    std::vector<Card*> discards;
 public:
     bool getPlaysFirst() const;
+    void discard(Card*);
     PlayerID getPlayerId() const;
     explicit Player(const PlayerID&, PlayerStrategy*);
     Hand * getHand() const;

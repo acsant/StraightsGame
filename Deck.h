@@ -29,4 +29,6 @@ public:
     ~Deck();
 };
 
+std::ostream &operator<<(std::ostream &, const Card &);
+
 #endif //STRAIGHTS_DECK_H

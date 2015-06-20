@@ -67,7 +67,7 @@ void GameManager::dealCards() {
     }
 }
 
-void GameManager::setFirstPlayer(const Player* firstP) {
+void GameManager::setFirstPlayer(Player* firstP) {
     current_turn = firstP;
 }
 
@@ -101,7 +101,8 @@ std::string GameManager::indexToSuit (int i) const {
 }
 
 std::string GameManager::indexToRank (int i) const {
-    std::istringstream ss (i + 1);
+    std::ostringstream ss;
+    ss << i+1;
     switch (i) {
         case 0:
             return  "A";
@@ -116,7 +117,7 @@ std::string GameManager::indexToRank (int i) const {
     }
 }
 
-const Player* GameManager::getCurrentPlayer() const {
+Player* GameManager::getCurrentPlayer() const {
     return current_turn;
 }
 
@@ -129,11 +130,29 @@ void GameManager::addLegalPlay(std::string play) {
 }
 
 bool GameManager::isLegalPlay(Card *c) {
-    std::string card = indexToRank(c->getRank()) + indexToSuit(c->getSuit());
+    std::string card = indexToRank(c->getRank()) + (indexToSuit(c->getSuit())).at(0);
     for (int i = 0; i < legalPlays->size(); i++) {
-        if (legalPlays[i] == card) {
+        if (legalPlays->at(i) == card) {
             return true;
         }
     }
     return false;
+}
+
+void GameManager::updateLegalCards(Card* c) {
+    std::string toAddLow;
+    if (c->getRank() - 1 >= 0) {
+        toAddLow = indexToRank(c->getRank() - 1) + indexToSuit(c->getSuit()).at(0);
+        if (!isLegalPlay(new Card(Suit(c->getSuit()), Rank(c->getRank() - 1)))) {
+            legalPlays->push_back(toAddLow);
+        }
+    }
+    std::string toAddHigh;
+    if (c->getRank() + 1 < 13) {
+        toAddHigh = indexToRank(c->getRank() + 1) + indexToSuit(c->getSuit()).at(0);
+        if (!isLegalPlay(new Card(Suit(c->getSuit()), Rank(c->getRank() + 1)))) {
+            legalPlays->push_back(toAddHigh);
+        }
+    }
+
 }

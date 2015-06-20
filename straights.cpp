@@ -21,8 +21,11 @@ int main(int argc, char* argv[]) {
     gm->addPlayersToGame(player_types);
     gm->dealCards();
     std::cout << "A new round begins. It's player " << gm->getCurrentPlayer()->getPlayerId() << "'s turn to play." << std::endl;
-
-    for (int i = 0; i < 52; i++) {
+    gm->getCurrentPlayer()->getStrategy()->play();
+    gm->addLegalPlay("7C");
+    gm->addLegalPlay("7D");
+    gm->addLegalPlay("7H");
+    for (int i = 0; i < 51; i++) {
         gm->getCurrentPlayer()->getStrategy()->play();
     }
 

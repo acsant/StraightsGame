@@ -43,3 +43,7 @@ void Player::addCards(Card * c) {
 PlayerStrategy *Player::getStrategy() const {
     return strategy;
 }
+
+void Player::discard(Card *card) {
+    discards.push_back(card);
+}

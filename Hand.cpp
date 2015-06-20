@@ -38,3 +38,7 @@ std::ostream &operator<<(std::ostream & sout, const Hand & hand) {
 int Hand::numberOfCards() const {
     return card_collection.size();
 }
+
+std::vector<Card *> Hand::getCards() const {
+    return card_collection;
+}

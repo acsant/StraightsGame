@@ -39,14 +39,34 @@ void HumanPlayer::play() {
         std::cin >> c;
         if (c.type == PLAY) {
             if (gm->isLegalPlay(&c.card)) {
-                std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " plays " << c.card << "." <<
-                std::end;
-                gm->getCurrentPlayer()->getHand()->removeCard(c.card);
-                gm->addCardToTable(c.card);
+                std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " plays " << c.card << "." << std::endl;
+                gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
+                gm->addCardToTable(&c.card);
+                gm->updateLegalCards(&c.card);
                 break;
             } else {
                 std::cout << "This is not a legal play." << std::endl;
             }
+        } else if (c.type == DISCARD) {
+            bool legalExists = false;
+            for (int k = 0; k < gm->getCurrentPlayer()->getHand()->numberOfCards(); k++) {
+                if (gm->isLegalPlay(gm->getCurrentPlayer()->getHand()->getCards().at(k))) {
+                    legalExists = true;
+                    std::cout << "You have a legal play. You may not discard." << std::endl;
+                    break;
+                }
+            }
+            if (!legalExists) {
+                std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " discards " << c.card << "." << std::endl;
+                gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
+                gm->getCurrentPlayer()->discard(&c.card);
+                break;
+            }
+
+        } else if (c.type == DECK) {
+            std::cout << Deck::getInstance() << std::endl;
+        } else if (c.type == QUIT) {
+            exit(EXIT_SUCCESS);
         }
     }
 

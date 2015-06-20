@@ -17,6 +17,7 @@ public:
     Hand();
     void insertCard(Card*);
     int numberOfCards() const;
+    std::vector<Card*> getCards() const;
     Card * removeCard(Card*);
     ~Hand();
 };

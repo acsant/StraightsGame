@@ -25,7 +25,7 @@ private:
     static bool created;
     static GameManager * gm;
     static int shuffle_seed;
-    const Player* current_turn;
+    Player* current_turn;
     Deck * deck;
     std::vector<std::string>* legalPlays;
     std::map<PlayerID, Player*> players;
@@ -39,14 +39,15 @@ public:
     void createGame();
     void setSeed(int);
     void dealCards();
-    void setFirstPlayer(const Player*);
+    void setFirstPlayer(Player*);
     void addCardToTable(Card*);
     void sortCardsOnTable();
-    const Player* getCurrentPlayer() const;
+    Player* getCurrentPlayer() const ;
     std::map<Suit, std::vector<Rank>*> getCardsOnTable() const;
     std::string indexToRank(int) const;
     std::string indexToSuit(int) const;
     bool isLegalPlay(Card* c);
+    void updateLegalCards(Card*);
     ~GameManager();
 };
 

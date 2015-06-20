@@ -60,3 +60,11 @@ void Deck::initDeck() {
 std::vector<Card*> Deck::getCards() {
     return cards_;
 }
+
+std::ostream &operator<<(std::ostream & sout, const Deck & d) {
+    Deck* deckInstance = d.getInstance();
+    for (int i = 0; i < CARD_COUNT; i++) {
+        sout << deckInstance->getCards().at(i) << " ";
+    }
+    return sout;
+}
