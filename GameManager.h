@@ -39,7 +39,6 @@ public:
     void createGame();
     void setSeed(int);
     void dealCards();
-    void startGamePlay();
     void setFirstPlayer(const Player*);
     void addCardToTable(Card*);
     void sortCardsOnTable();
@@ -47,6 +46,7 @@ public:
     std::map<Suit, std::vector<Rank>*> getCardsOnTable() const;
     std::string indexToRank(int) const;
     std::string indexToSuit(int) const;
+    bool isLegalPlay(Card* c);
     ~GameManager();
 };
 

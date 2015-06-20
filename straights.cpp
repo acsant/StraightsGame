@@ -20,14 +20,13 @@ int main(int argc, char* argv[]) {
     }
     gm->addPlayersToGame(player_types);
     gm->dealCards();
-    gm->startGamePlay();
-    Command c;
-    while (!cin.eof()) {
-        if (cin >> c) {
-            if (c.type == PLAY) {
+    std::cout << "A new round begins. It's player " << gm->getCurrentPlayer()->getPlayerId() << "'s turn to play." << std::endl;
 
-            }
-        }
+    for (int i = 0; i < 52; i++) {
+        gm->getCurrentPlayer()->getStrategy()->play();
     }
+
     return 0;
 }
+
+

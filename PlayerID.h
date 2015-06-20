@@ -6,6 +6,8 @@
 #define STRAIGHTS_PLAYERID_H
 
 #include <stdlib.h>
+#include <iosfwd>
+#include "Card.h"
 
 class PlayerID {
 private:
@@ -16,5 +18,7 @@ public:
     PlayerID();
     PlayerID(int);
 };
+
+std::ostream &operator<<(std::ostream &, const PlayerID &);
 
 #endif //STRAIGHTS_PLAYERID_H

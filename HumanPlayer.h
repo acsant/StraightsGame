@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "PlayerID.h"
 #include "PlayerStrategy.h"
+#include "Command.h"
 
 class HumanPlayer: public PlayerStrategy {
 public:

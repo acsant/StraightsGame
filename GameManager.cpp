@@ -71,11 +71,6 @@ void GameManager::setFirstPlayer(const Player* firstP) {
     current_turn = firstP;
 }
 
-void GameManager::startGamePlay() {
-    std::cout << "A new round begins. It's player " << current_turn->getPlayerId().player_id << "'s turn to play." << std::endl;
-    current_turn->getStrategy()->play();
-}
-
 void GameManager::addCardToTable(Card *card) {
     (cards_on_table.find(card->getSuit()))->second->push_back(card->getRank());
 }
@@ -131,4 +126,14 @@ std::vector<std::string>* GameManager::getLegalPlays() const {
 
 void GameManager::addLegalPlay(std::string play) {
     legalPlays->push_back(play);
+}
+
+bool GameManager::isLegalPlay(Card *c) {
+    std::string card = indexToRank(c->getRank()) + indexToSuit(c->getSuit());
+    for (int i = 0; i < legalPlays->size(); i++) {
+        if (legalPlays[i] == card) {
+            return true;
+        }
+    }
+    return false;
 }

@@ -38,3 +38,8 @@ bool operator> (const PlayerID &a, const PlayerID &b) {
 bool operator>= (const PlayerID &a, const PlayerID &b) {
     return !(a<b);
 }
+
+std::ostream &operator<<(std::ostream & sout, const PlayerID & id) {
+    sout << id.player_id;
+    return sout;
+}
