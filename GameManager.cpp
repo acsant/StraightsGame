@@ -11,6 +11,7 @@ int GameManager::shuffle_seed = 0;
 bool GameManager::created = false;
 GameManager * GameManager::gm = NULL;
 
+//implement the singleton design pattern for the GameManager object
 GameManager* GameManager::getInstance() {
     if (!created) {
         gm = new GameManager();
@@ -20,6 +21,7 @@ GameManager* GameManager::getInstance() {
         return gm;
     }
 }
+//initialize the relevant member variables at start of game
 GameManager::GameManager() {
     for (int i = 0; i < SUIT_COUNT; i++) {
         cards_on_table.insert(std::pair<Suit, std::vector<Rank>* >(Suit(i), new std::vector<Rank>()));
@@ -29,6 +31,7 @@ GameManager::GameManager() {
     endGame = false;
     currentRound = 1;
 }
+//delete all relevant member variables at end of game
 GameManager::~GameManager() {
     created = false;
     delete current_turn;
@@ -42,7 +45,7 @@ GameManager::~GameManager() {
     }
     delete gm;
 }
-
+// start gameplay using the created GameManager instance
 void GameManager::createGame() {
     deck = Deck::getInstance();
     deck->setSeed(shuffle_seed);
