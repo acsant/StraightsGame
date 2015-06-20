@@ -29,7 +29,6 @@ int main(int argc, char* argv[]) {
         gm->addLegalPlay("7H");
         for (int i = 0; i < 51; i++) {
             gm->getCurrentPlayer()->getStrategy()->play();
-            gm->setNextPlayer();
         }
         std::map<PlayerID, Player*> playerList = gm->getPlayers();
         int lowestScore = playerList[0]->getRoundScores().at(gm->getCurrentRound());
@@ -46,7 +45,7 @@ int main(int argc, char* argv[]) {
                 lowestScore = roundScore[gm->getCurrentRound()];
             }
             std::cout << "Player " << it->first << "'s score: " << it->second->getGameScore() << " + " <<
-                    roundScore[gm->getCurrentRound()] << " = " << totalScore << std::endl;
+            roundScore[gm->getCurrentRound()] << " = " << totalScore << std::endl;
             if (roundScore[gm->getCurrentRound()] >= 80) {
                 gm->setEndGame();
             }
@@ -64,5 +63,4 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-
 

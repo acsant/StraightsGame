@@ -31,6 +31,7 @@ void ComputerPlayer::play() {
         gm->getCurrentPlayer()->getHand()->removeCard(currentCard);
         gm->getCurrentPlayer()->discard(currentCard);
     }
+    gm->setNextPlayer();
 }
 
 ComputerPlayer::~ComputerPlayer() { }

@@ -14,10 +14,11 @@ void Hand::insertCard(Card* toInsert) {
 
 Card * Hand::removeCard(Card* toRemove) {
     for (std::vector<Card*>::iterator it = card_collection.begin(); it != card_collection.end(); it++) {
-        if ((*it) == toRemove) {
-
+        if (*(*it) == *toRemove) {
             card_collection.erase(it);
+            break;
         }
+
     }
     return toRemove;
 }
@@ -41,4 +42,13 @@ int Hand::numberOfCards() const {
 
 std::vector<Card *> Hand::getCards() const {
     return card_collection;
+}
+
+bool Hand::contains (Card& c) {
+    for (int i = 0; i < card_collection.size(); i++) {
+        if (*card_collection[i] == c) {
+            return true;
+        }
+    }
+    return false;
 }

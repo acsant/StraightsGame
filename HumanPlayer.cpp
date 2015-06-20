@@ -30,8 +30,10 @@ void HumanPlayer::play() {
     }
     std::cout << "Your hand: " << *(gm->getCurrentPlayer()->getHand()) << std::endl;
     std::cout << "Legal plays: ";
-    for (int i = 0; i < gm->getLegalPlays()->size(); i++) {
-        std::cout << gm->getLegalPlays()->at(i) << " ";
+    for (int i = 0; i < gm->getCurrentPlayer()->getHand()->numberOfCards(); i++) {
+        if (gm->isLegalPlay(gm->getCurrentPlayer()->getHand()->getCards().at(i))) {
+            std::cout << *(gm->getCurrentPlayer()->getHand()->getCards().at(i)) << " ";
+        }
     }
     std::cout << std::endl;
     Command c;
@@ -42,7 +44,6 @@ void HumanPlayer::play() {
                 std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " plays " << c.card << "." << std::endl;
                 gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
                 gm->addCardToTable(&c.card);
-                gm->updateLegalCards(&c.card);
                 break;
             } else {
                 std::cout << "This is not a legal play." << std::endl;
@@ -75,5 +76,7 @@ void HumanPlayer::play() {
             break;
         }
     }
+    gm->setNextPlayer();
+    gm->updateLegalCards(&c.card);
 
 }

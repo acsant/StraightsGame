@@ -25,6 +25,7 @@ GameManager::GameManager() {
     }
     legalPlays = new std::vector<std::string>();
     legalPlays->push_back("7S");
+    endGame = false;
     currentRound = 1;
 }
 GameManager::~GameManager() {
@@ -179,6 +180,7 @@ void GameManager::setEndGame() {
 }
 
 void GameManager::setNextPlayer() {
-    PlayerID next_id ((current_turn->getPlayerId().player_id + 1) % 4);
+    int temp_id = current_turn->getPlayerId().player_id;
+    PlayerID next_id ((temp_id % 4) + 1);
     current_turn = players[next_id];
 }
