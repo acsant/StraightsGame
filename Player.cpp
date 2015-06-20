@@ -2,7 +2,7 @@
 // Created by Akash Sant on 15-06-18.
 //
 
-#include "Player.h"
+
 #include "GameManager.h"
 
 int next_id = 1;
@@ -46,4 +46,9 @@ PlayerStrategy *Player::getStrategy() const {
 
 void Player::discard(Card *card) {
     discards.push_back(card);
+}
+
+void Player::reassessStrategy() {
+    delete strategy;
+    strategy = new ComputerPlayer;
 }

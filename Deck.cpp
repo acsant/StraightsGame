@@ -63,7 +63,7 @@ std::vector<Card*> Deck::getCards() {
 
 std::ostream &operator<<(std::ostream & sout, const Deck & d) {
     Deck* deckInstance = d.getInstance();
-    for (int i = 0; i < CARD_COUNT; i++) {
+    for (int i = 0; i < 52; i++) {
         sout << deckInstance->getCards().at(i) << " ";
     }
     return sout;

@@ -9,6 +9,7 @@
 #include "Hand.h"
 #include "PlayerID.h"
 #include "PlayerStrategy.h"
+#include "ComputerPlayer.h"
 
 class Player {
 private:

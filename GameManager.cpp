@@ -45,10 +45,10 @@ void GameManager::addPlayersToGame(std::vector<std::string> type) {
         PlayerID id;
         Player* player;
         if (type[i] == "c") {
-            PlayerStrategy* compuStrat = new ComputerPlayer();
+            PlayerStrategy* compuStrat = new ComputerPlayer;
             player = new Player(id, compuStrat);
         } else {
-            PlayerStrategy* humanStrat = new HumanPlayer();
+            PlayerStrategy* humanStrat = new HumanPlayer;
             player = new Player(id, humanStrat);
         }
         players.insert(std::pair<PlayerID, Player*>(id, player));

@@ -65,8 +65,13 @@ void HumanPlayer::play() {
 
         } else if (c.type == DECK) {
             std::cout << Deck::getInstance() << std::endl;
+            break;
         } else if (c.type == QUIT) {
             exit(EXIT_SUCCESS);
+        } else if (c.type == RAGEQUIT) {
+            gm->getCurrentPlayer()->reassessStrategy();
+            std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " ragequits. A computer will now take over." << std::endl;
+            break;
         }
     }
 

@@ -6,8 +6,9 @@
 #define STRAIGHTS_COMPUTERPLAYER_H
 
 #include "Hand.h"
-#include "Player.h"
+
 #include "PlayerStrategy.h"
+#include "Command.h"
 
 class ComputerPlayer: public PlayerStrategy {
 
