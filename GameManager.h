@@ -22,6 +22,7 @@ public:
 
 private:
     std::map<Suit, std::vector<Rank>*> cards_on_table;
+    bool endGame;
     static bool created;
     static GameManager * gm;
     static int shuffle_seed;
@@ -29,6 +30,7 @@ private:
     Deck * deck;
     std::vector<std::string>* legalPlays;
     std::map<PlayerID, Player*> players;
+    int currentRound;
     GameManager();
 
 public:
@@ -48,6 +50,12 @@ public:
     std::string indexToSuit(int) const;
     bool isLegalPlay(Card* c);
     void updateLegalCards(Card*);
+    int getCurrentRound() const;
+    void nextRound();
+    bool getEndGame() const;
+    void setEndGame();
+    void setNextPlayer();
+    std::map<PlayerID, Player*> getPlayers() const;
     ~GameManager();
 };
 

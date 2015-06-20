@@ -18,8 +18,13 @@ private:
     Hand * cards_at_hand;
     PlayerStrategy* strategy;
     std::vector<Card*> discards;
+    int gameScore;
+
+    std::vector<int> roundScore;
 public:
     bool getPlaysFirst() const;
+    void awardPoints(int points);
+    std::vector<Card*> getDiscards() const;
     void discard(Card*);
     PlayerID getPlayerId() const;
     explicit Player(const PlayerID&, PlayerStrategy*);
@@ -28,8 +33,10 @@ public:
     ~Player();
     PlayerStrategy* getStrategy() const;
     void reassessStrategy();
-protected:
     void setPlaysFirst();
+    int getGameScore() const;
+    std::vector<int> getRoundScores() const;
+    void setGameScore(int);
 };
 
 bool operator== (const PlayerID &a, const PlayerID &b);

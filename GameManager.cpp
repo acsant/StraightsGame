@@ -25,6 +25,7 @@ GameManager::GameManager() {
     }
     legalPlays = new std::vector<std::string>();
     legalPlays->push_back("7S");
+    currentRound = 1;
 }
 GameManager::~GameManager() {
     created = false;
@@ -155,4 +156,29 @@ void GameManager::updateLegalCards(Card* c) {
         }
     }
 
+}
+
+int GameManager::getCurrentRound() const {
+    return currentRound;
+}
+
+void GameManager::nextRound() {
+    currentRound++;
+}
+
+bool GameManager::getEndGame() const {
+    return endGame;
+}
+
+std::map<PlayerID, Player *> GameManager::getPlayers() const {
+    return players;
+}
+
+void GameManager::setEndGame() {
+    endGame  = true;
+}
+
+void GameManager::setNextPlayer() {
+    PlayerID next_id ((current_turn->getPlayerId().player_id + 1) % 4);
+    current_turn = players[next_id];
 }

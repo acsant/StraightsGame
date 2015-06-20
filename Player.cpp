@@ -52,3 +52,24 @@ void Player::reassessStrategy() {
     delete strategy;
     strategy = new ComputerPlayer;
 }
+
+void Player::awardPoints(int points) {
+    GameManager* gm = GameManager::getInstance();
+    roundScore[gm->getCurrentRound()] = roundScore[gm->getCurrentRound()] + points;
+}
+
+std::vector<Card *> Player::getDiscards() const {
+    return discards;
+}
+
+std::vector<int> Player::getRoundScores() const {
+    return roundScore;
+}
+
+void Player::setGameScore(int totalScore) {
+    gameScore = totalScore;
+}
+
+int Player::getGameScore() const {
+    return gameScore;
+}

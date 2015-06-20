@@ -60,6 +60,7 @@ void HumanPlayer::play() {
                 std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " discards " << c.card << "." << std::endl;
                 gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
                 gm->getCurrentPlayer()->discard(&c.card);
+                gm->getCurrentPlayer()->awardPoints(c.card.getRank() + 1);
                 break;
             }
 
