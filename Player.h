@@ -14,7 +14,7 @@
 class Player {
 private:
     PlayerID player_id;
-    bool playsFirst = false;
+    bool playsFirst;
     Hand * cards_at_hand;
     PlayerStrategy* strategy;
     std::vector<Card*> discards;

@@ -9,6 +9,7 @@ int next_id = 1;
 
 Player::Player(const PlayerID& id_, PlayerStrategy* strat): player_id(id_), strategy(strat) {
     cards_at_hand = new Hand();
+    playsFirst = false;
 }
 
 PlayerID Player::getPlayerId() const {
