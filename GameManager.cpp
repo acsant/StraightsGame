@@ -24,8 +24,8 @@ GameManager::GameManager() {
     for (int i = 0; i < SUIT_COUNT; i++) {
         cards_on_table.insert(std::pair<Suit, std::vector<Rank>* >(Suit(i), new std::vector<Rank>()));
     }
-    legalPlays = new std::vector<std::string>();
-    legalPlays->push_back("7S");
+    legalPlays = std::vector<std::string>();
+    legalPlays.push_back("7S");
     endGame = false;
     currentRound = 1;
 }
@@ -33,7 +33,7 @@ GameManager::~GameManager() {
     created = false;
     delete current_turn;
     delete deck;
-    delete legalPlays;
+    //delete legalPlays;
     for (std::map<Suit, std::vector<Rank>*>::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
         delete it->second;
     }
@@ -135,18 +135,18 @@ Player* GameManager::getCurrentPlayer() const {
     return current_turn;
 }
 
-std::vector<std::string>* GameManager::getLegalPlays() const {
+std::vector<std::string> GameManager::getLegalPlays() const {
     return legalPlays;
 }
 
 void GameManager::addLegalPlay(std::string play) {
-    legalPlays->push_back(play);
+    legalPlays.push_back(play);
 }
 
 bool GameManager::isLegalPlay(Card *c) {
     std::string card = indexToRank(c->getRank()) + (indexToSuit(c->getSuit())).at(0);
-    for (int i = 0; i < legalPlays->size(); i++) {
-        if (legalPlays->at(i) == card) {
+    for (int i = 0; i < legalPlays.size(); i++) {
+        if (legalPlays.at(i) == card) {
             return true;
         }
     }
@@ -159,7 +159,7 @@ void GameManager::updateLegalCards(Card* c) {
         toAddLow = indexToRank(c->getRank() - 1) + indexToSuit(c->getSuit()).at(0);
         Card*lowCheck = new Card(Suit(c->getSuit()), Rank(c->getRank() - 1));
         if (!isLegalPlay(lowCheck)) {
-            legalPlays->push_back(toAddLow);
+            legalPlays.push_back(toAddLow);
         }
         delete lowCheck;
     }
@@ -168,7 +168,7 @@ void GameManager::updateLegalCards(Card* c) {
         toAddHigh = indexToRank(c->getRank() + 1) + indexToSuit(c->getSuit()).at(0);
         Card* highCheck = new Card(Suit(c->getSuit()), Rank(c->getRank() + 1));
         if (!isLegalPlay(highCheck)) {
-            legalPlays->push_back(toAddHigh);
+            legalPlays.push_back(toAddHigh);
         }
         delete highCheck;
     }
@@ -205,10 +205,11 @@ void GameManager::resetRound() {
     delete deck;
     createGame();
     endGame = false;
-    legalPlays->clear();
+    legalPlays.clear();
+    legalPlays.push_back("7S");
     for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
         it->second->removePlaysFirst();
         it->second->addRound();
+        it->second->resetPlayer();
     }
-    current_turn->resetPlayer();
 }

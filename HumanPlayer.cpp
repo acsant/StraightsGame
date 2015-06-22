@@ -38,12 +38,14 @@ void HumanPlayer::play() {
     std::cout << std::endl;
     Command c;
     while (!(std::cin.eof())) {
+        std::cout << ">";
         std::cin >> c;
         if (c.type == PLAY) {
             if (gm->isLegalPlay(&c.card)) {
                 std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " plays " << c.card << "." << std::endl;
                 gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
                 gm->addCardToTable(&c.card);
+                gm->updateLegalCards(&c.card);
                 break;
             } else {
                 std::cout << "This is not a legal play." << std::endl;
@@ -76,7 +78,7 @@ void HumanPlayer::play() {
             break;
         }
     }
+    std::cout << ">";
     gm->setNextPlayer();
-    gm->updateLegalCards(&c.card);
 
 }

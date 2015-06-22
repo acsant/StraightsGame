@@ -14,6 +14,7 @@ int main(int argc, char* argv[]) {
     for (int i = 0; i < 4; i++) {
         string temp_type;
         cout << "Is player " << i+1 << " a human(h) or a computer(c)?" << endl;
+        std::cout << ">";
         cin >> temp_type;
         player_types.push_back(temp_type);
     }
@@ -27,6 +28,7 @@ int main(int argc, char* argv[]) {
         gm->addLegalPlay("7C");
         gm->addLegalPlay("7D");
         gm->addLegalPlay("7H");
+        gm->updateLegalCards(new Card(SPADE, SEVEN));
         for (int i = 0; i < 51; i++) {
             gm->getCurrentPlayer()->getStrategy()->play();
         }
@@ -36,8 +38,8 @@ int main(int argc, char* argv[]) {
         for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
             std::cout << "Player " << it->first << "'s discards: ";
             std::vector<Card*> playerDiscards = it->second->getDiscards();
-            for (int i = 0; i < playerDiscards.size(); i++) {
-                std::cout << *playerDiscards[i] << " ";
+            for (std::vector<Card*>::iterator it = playerDiscards.begin(); it != playerDiscards.end(); it++) {
+                std::cout << *(*it) << " ";
             }
             std::cout << std::endl;
             std::vector<int> roundScore = it->second->getRoundScores();
@@ -47,7 +49,8 @@ int main(int argc, char* argv[]) {
             }
             std::cout << "Player " << it->first << "'s score: " << it->second->getGameScore() << " + " <<
             roundScore[gm->getCurrentRound() - 1] << " = " << totalScore << std::endl;
-            if (roundScore[gm->getCurrentRound() - 1] >= 80) {
+            it->second->setGameScore(totalScore);
+            if (totalScore >= 80) {
                 gm->setEndGame();
             }
         }
@@ -61,8 +64,9 @@ int main(int argc, char* argv[]) {
         }
         gm->nextRound();
         gm->resetRound();
+        int sr = gm->getCurrentPlayer()->getRoundScores().size();
     }
-    delete gm;
+    //delete gm;
     return 0;
 }
 
