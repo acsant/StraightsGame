@@ -3,6 +3,7 @@
 //
 
 #include "Deck.h"
+#include "MemCheck.h"
 
 bool Deck::created = false;
 
@@ -13,6 +14,7 @@ const int Deck::CARD_COUNT = 52;
 int Deck::seed = 0;
 
 Deck * Deck::getInstance() {
+    MEM_ON();
     if (!created) {
         created = true;
         d = new Deck();
@@ -20,6 +22,7 @@ Deck * Deck::getInstance() {
     } else {
         return d;
     }
+    MEM_OFF();
 }
 
 Deck::Deck() {
@@ -27,10 +30,16 @@ Deck::Deck() {
 }
 
 Deck::~Deck() {
+    MEM_ON();
     created = false;
-    for (std::vector<Card*>::iterator it = cards_.begin(); it != cards_.end(); it++) {
-        delete *it;
+    /*for (std::vector<Card*>::iterator it = cards_.begin(); it != cards_.end(); it++) {
+        //cards_.erase(it);
+        delete it;
+    }*/
+    for (int i = 0; i < cards_.size(); i++) {
+        delete cards_[i];
     }
+    MEM_OFF();
     //delete d;
 }
 
@@ -53,12 +62,14 @@ void Deck::setSeed(int _seed) {
 }
 
 void Deck::initDeck() {
+    MEM_ON();
     for (int i = 0; i < SUIT_COUNT; i++) {
         for (int j = 0; j < RANK_COUNT; j++) {
             Card* card = new Card(Suit(i), Rank(j));
             cards_.push_back(card);
         }
     }
+    MEM_OFF();
 }
 
 std::vector<Card*> Deck::getCards() {
@@ -66,9 +77,11 @@ std::vector<Card*> Deck::getCards() {
 }
 
 std::ostream &operator<<(std::ostream & sout, const Deck & d) {
+    MEM_ON();
     Deck* deckInstance = d.getInstance();
     for (int i = 0; i < 52; i++) {
         sout << deckInstance->getCards().at(i) << " ";
     }
+    MEM_OFF();
     return sout;
 }

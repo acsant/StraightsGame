@@ -6,11 +6,11 @@
 #%: %.c
 #	gcc $< -o $@
 
-CXX = g++ -std=c++98								# Variables and initialization
+CXX = g++ -std=c++0x								# Variables and initialization
 CXXFLAGS = -g -Wall -MMD				# builds dependency list in .d files
-OBJECTS = straights.o Card.o Command.o Player.o PlayerID.o Deck.o GameManager.o Hand.o 
+OBJECTS = straights.o Card.o Command.o ComputerPlayer.o HumanPlayer.o Player.o PlayerID.o Deck.o GameManager.o Hand.o PlayerStrategy.o
 DEPENDS = ${OBJECTS:.o=.d} 				# substitute .o with .d
-EXEC = Straights 
+EXEC = straights 
 
 ${EXEC}:${OBJECTS}
 	${CXX} ${CXXFLAGS} ${OBJECTS} -o  ${EXEC}

@@ -4,6 +4,7 @@
 
 #include "ComputerPlayer.h"
 #include "GameManager.h"
+#include "MemCheck.h";
 
 
 ComputerPlayer::ComputerPlayer() {
@@ -11,6 +12,7 @@ ComputerPlayer::ComputerPlayer() {
 }
 
 void ComputerPlayer::play() {
+    MEM_ON();
     GameManager* gm = GameManager::getInstance();
     bool legalExists = false;
     Card* currentCard;
@@ -33,6 +35,7 @@ void ComputerPlayer::play() {
         gm->getCurrentPlayer()->awardPoints(currentCard->getRank() + 1);
     }
     gm->setNextPlayer();
+    MEM_OFF();
 }
 
 ComputerPlayer::~ComputerPlayer() { }

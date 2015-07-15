@@ -4,6 +4,7 @@
 
 #include "HumanPlayer.h"
 #include "GameManager.h"
+#include "MemCheck.h"
 
 HumanPlayer::HumanPlayer() {
 
@@ -14,6 +15,7 @@ HumanPlayer::~HumanPlayer() {
 }
 
 void HumanPlayer::play() {
+    MEM_ON();
     GameManager* gm = GameManager::getInstance();
     gm->sortCardsOnTable();
     std::map<Suit, std::vector<Rank>*> played_cards = gm->getCardsOnTable();
@@ -21,18 +23,18 @@ void HumanPlayer::play() {
     std::string tempString;
     for (std::map<Suit, std::vector<Rank>* >::iterator it = played_cards.begin(); it != played_cards.end(); it++) {
         tempString = gm->indexToSuit(it->first);
-        std::cout << tempString << ": " ;
+        std::cout << tempString << ":" ;
         for (std::vector<Rank>::iterator it2 = it->second->begin(); it2 != it->second->end(); it2++) {
             tempString = gm->indexToRank(*it2);
-            std::cout << tempString << " ";
+            std::cout << " " << tempString;
         }
         std::cout << std::endl;
     }
-    std::cout << "Your hand: " << *(gm->getCurrentPlayer()->getHand()) << std::endl;
-    std::cout << "Legal plays: ";
+    std::cout << "Your hand:" << *(gm->getCurrentPlayer()->getHand()) << std::endl;
+    std::cout << "Legal plays:";
     for (int i = 0; i < gm->getCurrentPlayer()->getHand()->numberOfCards(); i++) {
         if (gm->isLegalPlay(gm->getCurrentPlayer()->getHand()->getCards().at(i))) {
-            std::cout << *(gm->getCurrentPlayer()->getHand()->getCards().at(i)) << " ";
+            std::cout << " " << *(gm->getCurrentPlayer()->getHand()->getCards().at(i));
         }
     }
     std::cout << std::endl;
@@ -71,6 +73,7 @@ void HumanPlayer::play() {
             std::cout << Deck::getInstance() << std::endl;
             break;
         } else if (c.type == QUIT) {
+            delete gm;
             exit(EXIT_SUCCESS);
         } else if (c.type == RAGEQUIT) {
             gm->getCurrentPlayer()->reassessStrategy();
@@ -80,5 +83,5 @@ void HumanPlayer::play() {
     }
     std::cout << ">";
     gm->setNextPlayer();
-
+    MEM_OFF();
 }

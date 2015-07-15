@@ -6,12 +6,14 @@
 #include "ComputerPlayer.h"
 #include "HumanPlayer.h"
 #include "algorithm"
+#include "MemCheck.h"
 
 int GameManager::shuffle_seed = 0;
 bool GameManager::created = false;
 GameManager * GameManager::gm = NULL;
 
 GameManager* GameManager::getInstance() {
+    MEM_ON();
     if (!created) {
         gm = new GameManager();
         created = true;
@@ -19,8 +21,10 @@ GameManager* GameManager::getInstance() {
     } else {
         return gm;
     }
+    MEM_OFF();
 }
 GameManager::GameManager() {
+    MEM_ON();
     for (int i = 0; i < SUIT_COUNT; i++) {
         cards_on_table.insert(std::pair<Suit, std::vector<Rank>* >(Suit(i), new std::vector<Rank>()));
     }
@@ -28,26 +32,33 @@ GameManager::GameManager() {
     legalPlays.push_back("7S");
     endGame = false;
     currentRound = 1;
+    MEM_OFF();
 }
+
 GameManager::~GameManager() {
+    MEM_ON();
     created = false;
-    delete current_turn;
-    delete deck;
-    //delete legalPlays;
+    //current_turn = NULL;
+    //delete current_turn;
     for (std::map<Suit, std::vector<Rank>*>::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
         delete it->second;
     }
     for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
+        //players.erase(it);
         delete it->second;
     }
-    delete gm;
+
+    delete deck;
+    MEM_OFF();
 }
 
 void GameManager::createGame() {
+    MEM_ON();
     deck = Deck::getInstance();
     deck->setSeed(shuffle_seed);
     deck->shuffle();
     dealCards();
+    MEM_OFF();
 }
 
 void GameManager::setSeed(int seed_) {
@@ -55,6 +66,7 @@ void GameManager::setSeed(int seed_) {
 }
 
 void GameManager::addPlayersToGame(std::vector<std::string> type) {
+    MEM_ON();
     for (int i = 0; i < type.size(); i++) {
         PlayerID id;
         Player* player;
@@ -67,9 +79,11 @@ void GameManager::addPlayersToGame(std::vector<std::string> type) {
         }
         players.insert(std::pair<PlayerID, Player*>(id, player));
     }
+    MEM_OFF();
 }
 
 void GameManager::dealCards() {
+    MEM_ON();
     int num_cards = 13;
     std::vector<Card*> deck_of_cards = deck->getCards();
     int i = 0;
@@ -79,20 +93,27 @@ void GameManager::dealCards() {
         }
         i++;
     }
+    MEM_OFF();
 }
 
 void GameManager::setFirstPlayer(Player* firstP) {
+    MEM_ON();
     current_turn = firstP;
+    MEM_OFF();
 }
 
 void GameManager::addCardToTable(Card *card) {
+    MEM_ON();
     (cards_on_table.find(card->getSuit()))->second->push_back(card->getRank());
+    MEM_OFF();
 }
 
 void GameManager::sortCardsOnTable() {
+    MEM_ON();
     for (std::map<Suit, std::vector<Rank>* >::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
         std::sort(it->second->begin(), it->second->end());
     }
+    MEM_OFF();
 }
 
 std::map<Suit, std::vector<Rank> *> GameManager::getCardsOnTable() const {
@@ -144,16 +165,19 @@ void GameManager::addLegalPlay(std::string play) {
 }
 
 bool GameManager::isLegalPlay(Card *c) {
+    MEM_ON();
     std::string card = indexToRank(c->getRank()) + (indexToSuit(c->getSuit())).at(0);
     for (int i = 0; i < legalPlays.size(); i++) {
         if (legalPlays.at(i) == card) {
             return true;
         }
     }
+    MEM_OFF();
     return false;
 }
 
 void GameManager::updateLegalCards(Card* c) {
+    MEM_ON();
     std::string toAddLow;
     if (c->getRank() - 1 >= 0) {
         toAddLow = indexToRank(c->getRank() - 1) + indexToSuit(c->getSuit()).at(0);
@@ -172,6 +196,7 @@ void GameManager::updateLegalCards(Card* c) {
         }
         delete highCheck;
     }
+    MEM_OFF();
 
 }
 
@@ -196,14 +221,16 @@ void GameManager::setEndGame() {
 }
 
 void GameManager::setNextPlayer() {
+    MEM_ON();
     int temp_id = current_turn->getPlayerId().player_id;
     PlayerID next_id ((temp_id % 4) + 1);
     current_turn = players[next_id];
+    MEM_OFF();
 }
 
 void GameManager::resetRound() {
-    delete deck;
-    createGame();
+    //delete deck;
+    MEM_ON();
     endGame = false;
     legalPlays.clear();
     legalPlays.push_back("7S");
@@ -212,4 +239,6 @@ void GameManager::resetRound() {
         it->second->addRound();
         it->second->resetPlayer();
     }
+    MEM_OFF();
+    //createGame();
 }
