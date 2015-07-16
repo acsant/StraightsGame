@@ -13,8 +13,9 @@
 #include <string>
 #include "Player.h"
 #include <gtkmm.h>
+#include "Subject.h"
 
-class GameManager {
+class GameManager: public Subject {
 private:
     std::map<Suit, std::vector<Rank>*> cards_on_table;
     bool endGame;
@@ -29,7 +30,6 @@ private:
     GameManager();
 
 public:
-    std::vector<std::string> getLegalPlays() const;
     void addLegalPlay(std::string) ;
     static GameManager *getInstance();
     void addPlayersToGame(std::vector<Glib::ustring>);

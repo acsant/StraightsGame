@@ -156,10 +156,6 @@ Player* GameManager::getCurrentPlayer() const {
     return current_turn;
 }
 
-std::vector<std::string> GameManager::getLegalPlays() const {
-    return legalPlays;
-}
-
 void GameManager::addLegalPlay(std::string play) {
     legalPlays.push_back(play);
 }

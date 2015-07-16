@@ -8,6 +8,6 @@ include_directories(${GTKMM_INCLUDE_DIRS})
 link_directories(${GTKMM_LIBRARY_DIRS})
 
 set(SOURCE_FILES straights.cpp)
-add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES} Card.h Card.cpp Command.h Command.cpp GameManager.h GameManager.cpp Deck.h Deck.cpp Player.h Player.cpp Hand.h Hand.cpp ComputerPlayer.h ComputerPlayer.cpp PlayerID.h PlayerID.cpp HumanPlayer.h HumanPlayer.cpp PlayerStrategy.h PlayerStrategy.cpp MemCheck.h MemCheck.cpp DeckGUI.cpp DeckGUI.h TableGUI.cpp TableGUI.h Controller.cpp Controller.h)
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCE_FILES} Card.h Card.cpp Command.h Command.cpp GameManager.h GameManager.cpp Deck.h Deck.cpp Player.h Player.cpp Hand.h Hand.cpp ComputerPlayer.h ComputerPlayer.cpp PlayerID.h PlayerID.cpp HumanPlayer.h HumanPlayer.cpp PlayerStrategy.h PlayerStrategy.cpp MemCheck.h MemCheck.cpp DeckGUI.cpp DeckGUI.h TableGUI.cpp TableGUI.h Controller.cpp Controller.h Observer.h Subject.cpp Subject.h)
 target_link_libraries(${CMAKE_PROJECT_NAME} ${GTKMM_LIBRARIES})
 
