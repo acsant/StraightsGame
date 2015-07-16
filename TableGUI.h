@@ -17,6 +17,7 @@
 #include "DeckGUI.h"
 #include "Card.h"
 #include <iostream>
+#include <string>
 #include "GameManager.h"
 #include "Controller.h"
 
@@ -49,10 +50,15 @@ private:
     Gtk::Table main_table;
     Gtk::HBox newGameBox;
     Gtk::Button newGameButton;
+    Gtk::Button changeSeedButton;
     Gtk::Button endGameButton;
+
+    int oldseed;
+    int newseed;
 
     void player_buttonAction(int);
     void start_new_game();
+    void change_seed();
 
 };
 

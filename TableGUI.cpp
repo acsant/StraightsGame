@@ -19,6 +19,7 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
     add(main_panel);
     main_panel.add(newGameBox);
     newGameBox.add(newGameButton);
+    newGameBox.add(changeSeedButton);
     newGameBox.add(endGameButton);
     main_panel.add(all_cards);
     main_panel.add(players_panel);
@@ -28,6 +29,7 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
     all_cards.add(table_cards);
 
     newGameButton.set_label("New Game");
+    changeSeedButton.set_label("Change Seed Value");
     endGameButton.set_label("End Game");
 
     for (int i = 0; i < 4; i++) {
@@ -80,6 +82,9 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
     // On start of a new game
     newGameButton.signal_clicked().connect(sigc::mem_fun(*this, &TableGUI::start_new_game));
 
+    //On updating seed value
+    changeSeedButton.signal_clicked().connect(sigc::mem_fun(*this, &TableGUI::change_seed));
+
     // The final step is to display this newly created widget.
     show_all();
 }
@@ -97,14 +102,14 @@ void TableGUI::player_buttonAction(int button) {
     }
 }
 
-void TableGUI::start_new_game() {
-    Gtk::Dialog dialog( "Enter Seed Value", *this );
+void TableGUI::change_seed() {
+    Gtk::Dialog dialog( "Enter New Seed Value", *this );
 
     Gtk::Entry   nameField;                  // Text entry for the user's seed
     Gtk::Label   nameLabel( "Please enter the seed value:" );
 
-    // Add the text entry widget to the dialog box.
-    // Add the text entry widget to the vertical box section of the dialog box.
+// Add the text entry widget to the dialog box.
+// Add the text entry widget to the vertical box section of the dialog box.
     Gtk::VBox* contentArea = dialog.get_vbox();
     contentArea->pack_start( nameLabel, true, false );
     contentArea->pack_start( nameField, true, false );
@@ -113,18 +118,19 @@ void TableGUI::start_new_game() {
     nameLabel.show();
     nameField.show();
 
-    // Add two standard buttons, "Ok" and "Cancel" with the appropriate responses when clicked.
+// Add two standard buttons, "Ok" and "Cancel" with the appropriate responses when clicked.
     Gtk::Button * okButton = dialog.add_button( Gtk::Stock::OK, Gtk::RESPONSE_OK);
     Gtk::Button * cancelButton = dialog.add_button( Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
 
-    // Wait for a response from the dialog box.
+// Wait for a response from the dialog box.
     int result = dialog.run();
-    std::string seed;
+    std::stringstream s;
     switch (result) {
         case Gtk::RESPONSE_OK:
         case Gtk::RESPONSE_ACCEPT:
-            seed = nameField.get_text();
-            std::cout << "Entered '" << seed << "'" << std::endl;
+            s << nameField.get_text().raw();
+            s >> newseed;
+            std::cout << "Entered '" << newseed << "'" << std::endl;
             break;
         case Gtk::RESPONSE_CANCEL:
             std::cout << "dialog cancelled" << std::endl;
@@ -133,6 +139,22 @@ void TableGUI::start_new_game() {
             std::cout << "unexpected button clicked" << std::endl;
             break;
     } // switch
+}
+
+
+
+void TableGUI::start_new_game() {
+
+    //call change seed function in controller if needed
+    if (oldseed == newseed)
+    {
+        std::cout << "Seed value not changed." << std::endl;
+    }
+    else
+    {
+        std::cout << "Seed value changed to " << newseed << std::endl;
+    }
+
     std::vector<Glib::ustring> player_types;
     for (Gtk::Button* button : rage_quit) {
         player_types.push_back(button->get_label());
