@@ -161,10 +161,7 @@ void TableGUI::change_seed() {
 
 void TableGUI::update() {
     int active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
-    const Glib::RefPtr<Gdk::Pixbuf> nullCardPixbuf = deck.null();
-    Glib::RefPtr<Gdk::Pixbuf> cardPixBuf;
     Hand* currentHand;
-    std::map<Suit, std::vector<Rank> *> cards_on_table = gm_->getCardsOnTable();
     // Everything before next player
     Player* updated_player = gm_->getPlayers().find(active_player)->second;
     std::vector<int> roundScores = updated_player->getRoundScores();
@@ -185,6 +182,21 @@ void TableGUI::update() {
     std::string player = "";
     player = playerStream.str();
     player.erase(0, player.find_first_not_of('0'));
+    //update all cards
+    updateCards(player, active_player, currentHand);
+
+    //delete currentHand;
+
+}
+
+void TableGUI::play_card(int index) {
+    controller->play_card(index);
+}
+
+void TableGUI::updateCards(std::string player, int active_player, Hand* currentHand){
+    Glib::RefPtr<Gdk::Pixbuf> cardPixBuf;
+    const Glib::RefPtr<Gdk::Pixbuf> nullCardPixbuf = deck.null();
+    std::map<Suit, std::vector<Rank> *> cards_on_table = gm_->getCardsOnTable();
     your_hand_frame.set_label("Player " + player + "'s Hand");
     // If its the current player, set all the cards and change player turn
     if (gm_->getCurrentPlayer()) {
@@ -222,12 +234,5 @@ void TableGUI::update() {
         }
         k++;
     }
-
-    //delete currentHand;
-
 }
 
-
-void TableGUI::play_card(int index) {
-    controller->play_card(index);
-}

@@ -54,6 +54,7 @@ private:
     int newseed;
 
     void player_buttonAction(int);
+    void updateCards(std::string player, int active_player, Hand* currentHand);
     void play_card(int);
     void start_new_game();
     void change_seed();
