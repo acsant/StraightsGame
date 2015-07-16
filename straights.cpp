@@ -12,21 +12,12 @@ int main(int argc, char* argv[]) {
     MEM_ON();
     GameManager* gm = GameManager::getInstance();
     Controller controller(gm);
-    Gtk::Main kit( argc, argv);
-    TableGUI window(&controller, gm);
-    Gtk::Main::run(window);
-    vector<string> player_types;
     if (argv[1]) {
         gm->setSeed((int) *(argv[1] - '0'));
     }
-    for (int i = 0; i < 4; i++) {
-        string temp_type;
-        cout << "Is player " << i+1 << " a human(h) or a computer(c)?" << endl;
-        std::cout << ">";
-        cin >> temp_type;
-        player_types.push_back(temp_type);
-    }
-    gm->addPlayersToGame(player_types);
+    Gtk::Main kit( argc, argv);
+    TableGUI window(&controller, gm);
+    Gtk::Main::run(window);
 
     while (!gm->getEndGame()) {
         gm->createGame();

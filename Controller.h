@@ -9,7 +9,7 @@
 class Controller {
 public:
     Controller(GameManager*);
-    void newGameButtonClicked();
+    void newGameButtonClicked(std::vector<std::string>);
 private:
     GameManager *gm_;
 };

@@ -7,6 +7,6 @@
 
 Controller::Controller(GameManager* gm): gm_(gm) { }
 
-void Controller::newGameButtonClicked() {
-
+void Controller::newGameButtonClicked(std::vector<std::string> player_types) {
+    gm_->addPlayersToGame(player_types);
 }

@@ -70,7 +70,7 @@ void GameManager::addPlayersToGame(std::vector<std::string> type) {
     for (int i = 0; i < type.size(); i++) {
         PlayerID id;
         Player* player;
-        if (type[i] == "c") {
+        if (type[i] == "Computer") {
             PlayerStrategy* compuStrat = new ComputerPlayer;
             player = new Player(id, compuStrat);
         } else {
