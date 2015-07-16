@@ -257,3 +257,7 @@ bool GameManager::has_legal() {
     }
     return has_legal;
 }
+
+std::vector<std::string> GameManager::getLegalPlays() {
+    return legalPlays;
+}

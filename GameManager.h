@@ -54,6 +54,7 @@ public:
     void resetRound();
     void play_card(Command);
     bool has_legal();
+    std::vector<std::string> getLegalPlays();
     ~GameManager();
 };
 

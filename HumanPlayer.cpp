@@ -106,6 +106,5 @@ void HumanPlayer::play(Command c) {
         gm->addLegalPlay("7H");
     }
     delete temp;
-    gm->setNextPlayer();
     MEM_OFF();
 }

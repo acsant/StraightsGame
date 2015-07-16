@@ -39,8 +39,6 @@ private:
     Gtk::Button *rage_quit[4];
     Gtk::HBox hand_hbox;
     Gtk::Frame your_hand_frame;
-    std::vector<int> player_score;
-    std::vector<int> player_discards;
     Gtk::Label *player_score_label[4];
     Gtk::Frame all_cards;
     Gtk::Image *table_card[52];
@@ -59,7 +57,6 @@ private:
     void play_card(int);
     void start_new_game();
     void change_seed();
-    void updateGUIScore();
     void update();
 
 };

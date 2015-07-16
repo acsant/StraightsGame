@@ -10,7 +10,7 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
     //const Glib::RefPtr<Gdk::Pixbuf> sev_spades = deck.image(SPADE, SEVEN);
     set_border_width(10);
 
-    your_hand_frame.set_label("Your Hand: ");
+    your_hand_frame.set_label("Player Hand: ");
     your_hand_frame.set_border_width(10);
     all_cards.set_label("Cards on the table");
     table_cards.set_border_width(10);
@@ -59,14 +59,12 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
         (*rage_quit[i-1]).set_border_width(5);
         // Scores
         player_score_label[i-1] = new Gtk::Label();
-        player_score.push_back(0);
-        (*player_score_label[i-1]).set_label(std::to_string(player_score.at(i-1)) + " points");
+        (*player_score_label[i-1]).set_label("0 points");
         (*player_info[i-1]).add((*player_score_label[i-1]));
 
         //Discards
         discard_label[i-1] = new Gtk::Label();
-        player_discards.push_back(0);
-        (*discard_label[i-1]).set_label(std::to_string(player_discards.at(i-1)) + " discards");
+        (*discard_label[i-1]).set_label("0 discards");
         (*player_info[i-1]).add(*discard_label[i-1]);
     }
 
@@ -162,12 +160,34 @@ void TableGUI::change_seed() {
 }
 
 void TableGUI::update() {
-    int active_player;
+    int active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
+    const Glib::RefPtr<Gdk::Pixbuf> nullCardPixbuf = deck.null();
     Glib::RefPtr<Gdk::Pixbuf> cardPixBuf;
-    Hand* currentHand = gm_->getCurrentPlayer()->getHand();
+    Hand* currentHand;
     std::map<Suit, std::vector<Rank> *> cards_on_table = gm_->getCardsOnTable();
+    // Everything before next player
+    Player* updated_player = gm_->getPlayers().find(active_player)->second;
+    std::vector<int> roundScores = updated_player->getRoundScores();
+    (*player_score_label[active_player - 1]).set_label(std::to_string(updated_player->getGameScore() + roundScores.at(roundScores.size() - 1)) + " points");
+    int discard = updated_player->getDiscards().size();
+    std::stringstream ss;
+    ss << discard;
+    (*discard_label[active_player - 1]).set_label(ss.str() + " discards");
+    // Controller changes to next player
+    if (gm_->getLegalPlays().size() > 1) {
+        controller->setNextPlayer();
+    }
+    currentHand = gm_->getCurrentPlayer()->getHand();
+    active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
+    std::stringstream playerStream;
+    playerStream.clear();
+    playerStream << active_player;
+    std::string player = "";
+    player = playerStream.str();
+    player.erase(0, player.find_first_not_of('0'));
+    your_hand_frame.set_label("Player " + player + "'s Hand");
+    // If its the current player, set all the cards and change player turn
     if (gm_->getCurrentPlayer()) {
-        active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
         for (int i = 0; i < 4; i++) {
             if (i+1 != active_player) {
                 rage_quit[i]->set_sensitive(false);
@@ -175,11 +195,19 @@ void TableGUI::update() {
                 rage_quit[i]->set_sensitive(true);
             }
         }
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < currentHand->numberOfCards(); i++) {
             Card* currentCard = currentHand->getCards().at(i);
             cardPixBuf = deck.image(currentCard->getSuit(), currentCard->getRank());
             hand_card[i]->set(cardPixBuf);
             if (!gm_->isLegalPlay(currentCard)) {
+                hand_card[i]->set_sensitive(false);
+            } else {
+                hand_card[i]->set_sensitive(true);
+            }
+        }
+        if (currentHand->numberOfCards() < 13) {
+            for (int i = 12; i >= currentHand->numberOfCards(); i--) {
+                hand_card[i]->set(nullCardPixbuf);
                 hand_card[i]->set_sensitive(false);
             }
         }
@@ -194,9 +222,7 @@ void TableGUI::update() {
         }
         k++;
     }
-    Player* updated_player = gm_->getPlayers().find(active_player)->second;
-    std::vector<int> roundScores = updated_player->getRoundScores();
-    (*player_score_label[active_player - 1]).set_label(std::to_string(updated_player->getGameScore() + roundScores.at(roundScores.size() - 1)) + " points");
+
     //delete currentHand;
 
 }

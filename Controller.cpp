@@ -29,3 +29,7 @@ void Controller::play_card(int index) {
 }
 
 
+void Controller::setNextPlayer() {
+    gm_->setNextPlayer();
+
+}

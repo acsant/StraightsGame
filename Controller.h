@@ -14,6 +14,7 @@ public:
     void newGameButtonClicked(std::vector<Glib::ustring>);
     void setSeed(int seed);
     void play_card(int);
+    void setNextPlayer();
 private:
     GameManager *gm_;
 };
