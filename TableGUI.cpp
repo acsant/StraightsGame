@@ -5,7 +5,7 @@
 #include "TableGUI.h"
 #include <string>
 
-TableGUI::TableGUI() : main_panel(false, 10), players_panel(false, 10), hand_hbox(false, 10), table_cards(false, 10), main_table(10,10, true) {
+TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), main_panel(false, 10), players_panel(false, 10), hand_hbox(false, 10), table_cards(false, 10), main_table(10,10, true) {
     const Glib::RefPtr<Gdk::Pixbuf> nullCardPixbuf = deck.null();
     //const Glib::RefPtr<Gdk::Pixbuf> sev_spades = deck.image(SPADE, SEVEN);
     set_border_width(10);

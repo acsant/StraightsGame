@@ -10,11 +10,12 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     MEM_ON();
+    GameManager* gm = GameManager::getInstance();
+    Controller controller(gm);
     Gtk::Main kit( argc, argv);
-    TableGUI window;
+    TableGUI window(&controller, gm);
     Gtk::Main::run(window);
     vector<string> player_types;
-    GameManager* gm = GameManager::getInstance();
     if (argv[1]) {
         gm->setSeed((int) *(argv[1] - '0'));
     }

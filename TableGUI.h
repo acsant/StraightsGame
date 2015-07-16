@@ -4,7 +4,7 @@
 
 #ifndef STRAIGHTS_TABLEGUI_H
 #define STRAIGHTS_TABLEGUI_H
-#include <gtkmm/window.h>
+#include<gtkmm/window.h>
 #include <gtkmm/image.h>
 #include <gtkmm/box.h>
 #include <gtkmm/button.h>
@@ -14,12 +14,17 @@
 #include "DeckGUI.h"
 #include "Card.h"
 #include <iostream>
+#include "GameManager.h"
+#include "Controller.h"
 
 class TableGUI: public Gtk::Window {
 public:
-    TableGUI();
+    TableGUI(Controller*, GameManager*);
     virtual ~TableGUI();
 private:
+    Controller* controller;
+    GameManager* gm_;
+
     DeckGUI deck;
     Gtk::VBox main_panel;
     Gtk::Frame *player_frame[4];
