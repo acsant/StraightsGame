@@ -65,7 +65,7 @@ void GameManager::setSeed(int seed_) {
     shuffle_seed = seed_;
 }
 
-void GameManager::addPlayersToGame(std::vector<std::string> type) {
+void GameManager::addPlayersToGame(std::vector<Glib::ustring> type) {
     MEM_ON();
     for (int i = 0; i < type.size(); i++) {
         PlayerID id;

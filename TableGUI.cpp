@@ -100,7 +100,7 @@ void TableGUI::player_buttonAction(int button) {
 void TableGUI::start_new_game() {
     Gtk::Dialog dialog( "Enter Seed Value", *this );
 
-    Gtk::Entry   nameField;                  // Text entry for the user's name
+    Gtk::Entry   nameField;                  // Text entry for the user's seed
     Gtk::Label   nameLabel( "Please enter the seed value:" );
 
     // Add the text entry widget to the dialog box.
@@ -119,12 +119,12 @@ void TableGUI::start_new_game() {
 
     // Wait for a response from the dialog box.
     int result = dialog.run();
-    std::string name;
+    std::string seed;
     switch (result) {
         case Gtk::RESPONSE_OK:
         case Gtk::RESPONSE_ACCEPT:
-            name = nameField.get_text();
-            std::cout << "Entered '" << name << "'" << std::endl;
+            seed = nameField.get_text();
+            std::cout << "Entered '" << seed << "'" << std::endl;
             break;
         case Gtk::RESPONSE_CANCEL:
             std::cout << "dialog cancelled" << std::endl;
@@ -137,6 +137,8 @@ void TableGUI::start_new_game() {
     for (Gtk::Button* button : rage_quit) {
         player_types.push_back(button->get_label());
     }
+
+    controller->newGameButtonClicked(player_types);
 }
 
 

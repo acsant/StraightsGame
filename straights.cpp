@@ -12,9 +12,6 @@ int main(int argc, char* argv[]) {
     MEM_ON();
     GameManager* gm = GameManager::getInstance();
     Controller controller(gm);
-    if (argv[1]) {
-        gm->setSeed((int) *(argv[1] - '0'));
-    }
     Gtk::Main kit( argc, argv);
     TableGUI window(&controller, gm);
     Gtk::Main::run(window);

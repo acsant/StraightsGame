@@ -5,11 +5,14 @@
 #ifndef STRAIGHTS_CONTROLLER_H
 #define STRAIGHTS_CONTROLLER_H
 #include "GameManager.h"
+#include <gtkmm.h>
+#include <string>
 
 class Controller {
 public:
     Controller(GameManager*);
-    void newGameButtonClicked(std::vector<std::string>);
+    void newGameButtonClicked(std::vector<Glib::ustring>);
+    void setSeed(std::string seed);
 private:
     GameManager *gm_;
 };

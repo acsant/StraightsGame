@@ -25,7 +25,7 @@ const char* image_names[] = {
 };
 
 Glib::RefPtr<Gdk::Pixbuf> createPixbuf(const std::string & name) {
-    return Gdk::Pixbuf::create_from_file( "/Users/kaivalyagandhi/Google Drive/2B/CS 247/Assignments/StraightsGame/" + name );
+    return Gdk::Pixbuf::create_from_file( "/Users/Akash-Mac/Documents/CS247/Straights/" + name );
 }
 
 DeckGUI::DeckGUI() {

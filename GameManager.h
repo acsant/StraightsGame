@@ -12,6 +12,7 @@
 #include <sstream>
 #include <string>
 #include "Player.h"
+#include <gtkmm.h>
 
 class GameManager {
 private:
@@ -31,7 +32,7 @@ public:
     std::vector<std::string> getLegalPlays() const;
     void addLegalPlay(std::string) ;
     static GameManager *getInstance();
-    void addPlayersToGame(std::vector<std::string>);
+    void addPlayersToGame(std::vector<Glib::ustring>);
     void createGame();
     void setSeed(int);
     void dealCards();
