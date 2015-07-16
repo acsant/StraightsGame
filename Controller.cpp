@@ -14,3 +14,7 @@ void Controller::newGameButtonClicked(std::vector<Glib::ustring> player_types) {
 void Controller::setSeed(int seed) {
     gm_->setSeed(seed);
 }
+
+void Controller::play_card(int index) {
+    
+}

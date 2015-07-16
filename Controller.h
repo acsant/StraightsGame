@@ -13,6 +13,7 @@ public:
     Controller(GameManager*);
     void newGameButtonClicked(std::vector<Glib::ustring>);
     void setSeed(int seed);
+    void play_card(int);
 private:
     GameManager *gm_;
 };

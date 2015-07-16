@@ -56,6 +56,7 @@ private:
     int newseed;
 
     void player_buttonAction(int);
+    void play_card(int);
     void start_new_game();
     void change_seed();
     void update();

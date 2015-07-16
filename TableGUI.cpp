@@ -76,9 +76,10 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
         hand_button[i] = new Gtk::Button();
         hand_button[i]->set_image(*hand_card[i]);
         hand_hbox.add( *hand_button[i] );
+        hand_button[i]->signal_clicked().connect(sigc::bind<int>(sigc::mem_fun(*this, &TableGUI::play_card), i));
     } // for
     hand_hbox.set_border_width(10);
-
+    gm_->subscribe(this);
     // On start of a new game
     newGameButton.signal_clicked().connect(sigc::mem_fun(*this, &TableGUI::start_new_game));
 
@@ -100,6 +101,24 @@ void TableGUI::player_buttonAction(int button) {
     } else if (label == "Computer") {
         (*rage_quit[button]).set_label("Human");
     }
+}
+
+void TableGUI::start_new_game() {
+
+    std::vector<Glib::ustring> player_types;
+    for (Gtk::Button* button : rage_quit) {
+        player_types.push_back(button->get_label());
+        button->set_label("Rage!");
+    }
+    controller->newGameButtonClicked(player_types);
+    Gtk::Dialog dialog( "Notification", *this, true, true);
+    Glib::ustring turn_notification = "The game has started. It is Player" + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
+    Gtk::Label   nameLabel( turn_notification );
+    Gtk::VBox* contentArea = dialog.get_vbox();
+    contentArea->pack_start( nameLabel, true, false );
+    Gtk::Button * okButton = dialog.add_button( Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    nameLabel.show();
+    int res = dialog.run();
 }
 
 void TableGUI::change_seed() {
@@ -142,17 +161,40 @@ void TableGUI::change_seed() {
     } // switch
 }
 
-
-
-void TableGUI::start_new_game() {
-
-    std::vector<Glib::ustring> player_types;
-    for (Gtk::Button* button : rage_quit) {
-        player_types.push_back(button->get_label());
+void TableGUI::update() {
+    int active_player;
+    Glib::RefPtr<Gdk::Pixbuf> cardPixBuf;
+    Hand currentHand = *(gm_->getCurrentPlayer()->getHand());
+    std::map<Suit, std::vector<Rank> *> cards_on_table = gm_->getCardsOnTable();
+    if (gm_->getCurrentPlayer()) {
+        active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
+        for (int i = 0; i < 4; i++) {
+            if (i+1 != active_player) {
+                rage_quit[i]->set_sensitive(false);
+            }
+        }
+        for (int i = 0; i < 13; i++) {
+            Card currentCard = *(currentHand.getCards().at(i));
+            cardPixBuf = deck.image(currentCard.getSuit(), currentCard.getRank());
+            hand_card[i]->set(cardPixBuf);
+            if (!gm_->isLegalPlay(&currentCard)) {
+                hand_card[i]->set_sensitive(false);
+            }
+        }
+    }
+    int k = 0;
+    for (std::map<Suit, std::vector<Rank> *>::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
+        std::vector<Rank> cards_of_rank = *(*it).second;
+        for (int j = 0; j < cards_of_rank.size(); j++) {
+            cardPixBuf = deck.image((*it).first, cards_of_rank[j]);
+            table_card[(k+1)*(j+1) - 1]->set(cardPixBuf);
+        }
+        k++;
     }
 
-    controller->newGameButtonClicked(player_types);
 }
 
-void TableGUI::update() {}
 
+void TableGUI::play_card(int index) {
+    controller->play_card(index);
+}

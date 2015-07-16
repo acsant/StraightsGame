@@ -34,7 +34,7 @@ DeckGUI::DeckGUI() {
 }
 
 Glib::RefPtr<Gdk::Pixbuf> DeckGUI::image( Suit s, Rank r ) {
-    int index = ((int) s)*12 + ((int) r );
+    int index = ((int) s)*13 + ((int) r );
     return deck[ index ];
 }
 

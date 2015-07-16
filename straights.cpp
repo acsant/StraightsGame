@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     Gtk::Main::run(window);
 
     while (!gm->getEndGame()) {
-        gm->createGame();
+        //gm->createGame();
         std::cout << "A new round begins. It's player " << gm->getCurrentPlayer()->getPlayerId() << "'s turn to play." << std::endl;
         gm->getCurrentPlayer()->getStrategy()->play();
         gm->addLegalPlay("7C");
