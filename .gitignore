@@ -14,3 +14,9 @@
 *.xml
 
 *.xml
+
+CMakeLists.txt
+
+DeckGUI.cpp
+
+CMakeLists.txt

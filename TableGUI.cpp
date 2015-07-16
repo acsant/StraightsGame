@@ -98,8 +98,45 @@ void TableGUI::player_buttonAction(int button) {
 }
 
 void TableGUI::start_new_game() {
+    Gtk::Dialog dialog( "Enter Seed Value", *this );
+
+    Gtk::Entry   nameField;                  // Text entry for the user's name
+    Gtk::Label   nameLabel( "Please enter the seed value:" );
+
+    // Add the text entry widget to the dialog box.
+    // Add the text entry widget to the vertical box section of the dialog box.
+    Gtk::VBox* contentArea = dialog.get_vbox();
+    contentArea->pack_start( nameLabel, true, false );
+    contentArea->pack_start( nameField, true, false );
+
+    nameField.set_text( "0" );
+    nameLabel.show();
+    nameField.show();
+
+    // Add two standard buttons, "Ok" and "Cancel" with the appropriate responses when clicked.
+    Gtk::Button * okButton = dialog.add_button( Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    Gtk::Button * cancelButton = dialog.add_button( Gtk::Stock::CANCEL, Gtk::RESPONSE_CANCEL);
+
+    // Wait for a response from the dialog box.
+    int result = dialog.run();
+    std::string name;
+    switch (result) {
+        case Gtk::RESPONSE_OK:
+        case Gtk::RESPONSE_ACCEPT:
+            name = nameField.get_text();
+            std::cout << "Entered '" << name << "'" << std::endl;
+            break;
+        case Gtk::RESPONSE_CANCEL:
+            std::cout << "dialog cancelled" << std::endl;
+            break;
+        default:
+            std::cout << "unexpected button clicked" << std::endl;
+            break;
+    } // switch
     std::vector<Glib::ustring> player_types;
     for (Gtk::Button* button : rage_quit) {
         player_types.push_back(button->get_label());
     }
 }
+
+

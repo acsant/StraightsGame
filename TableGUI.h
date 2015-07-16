@@ -11,6 +11,9 @@
 #include <gtkmm/frame.h>
 #include <gtkmm/label.h>
 #include <gtkmm/table.h>
+#include <gtkmm/dialog.h>
+#include <gtkmm/entry.h>
+#include <gtkmm/stock.h>
 #include "DeckGUI.h"
 #include "Card.h"
 #include <iostream>
