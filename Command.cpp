@@ -27,3 +27,7 @@ istream &operator>>(istream &in, Command &c){
 
     return in;
 }
+
+Command::Command(Type type_, Card card_): type(type_), card(card_) {
+
+}

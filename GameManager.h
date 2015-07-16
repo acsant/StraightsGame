@@ -52,6 +52,8 @@ public:
     void setNextPlayer();
     std::map<PlayerID, Player*> getPlayers() const;
     void resetRound();
+    void play_card(Command);
+    bool has_legal();
     ~GameManager();
 };
 

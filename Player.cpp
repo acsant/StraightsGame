@@ -13,6 +13,7 @@ Player::Player(const PlayerID& id_, PlayerStrategy* strat): player_id(id_), stra
     cards_at_hand = new Hand();
     playsFirst = false;
     roundScore.push_back(0);
+    gameScore = 0;
     MEM_OFF();
 }
 

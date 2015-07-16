@@ -13,7 +13,7 @@
 class ComputerPlayer: public PlayerStrategy {
 
 public:
-    void play();
+    void play(Command);
     ComputerPlayer();
     ~ComputerPlayer();
 };

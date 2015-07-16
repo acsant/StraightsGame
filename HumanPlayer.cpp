@@ -14,7 +14,7 @@ HumanPlayer::HumanPlayer() {
 HumanPlayer::~HumanPlayer() {
 }
 
-void HumanPlayer::play() {
+void HumanPlayer::play(Command c) {
     MEM_ON();
     GameManager* gm = GameManager::getInstance();
     gm->sortCardsOnTable();
@@ -38,7 +38,22 @@ void HumanPlayer::play() {
         }
     }
     std::cout << std::endl;
-    Command c;
+    if (c.type == PLAY) {
+        if (gm->isLegalPlay(&c.card)) {
+            std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " plays " << c.card << "." << std::endl;
+            gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
+            gm->addCardToTable(&c.card);
+            gm->updateLegalCards(&c.card);
+        } else {
+            std::cout << "This is not a legal play." << std::endl;
+        }
+    } else if (c.type == DISCARD) {
+        std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " discards " << c.card << "." << std::endl;
+        gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
+        gm->getCurrentPlayer()->discard(&c.card);
+        gm->getCurrentPlayer()->awardPoints(c.card.getRank() + 1);
+    }
+    /*
     while (!(std::cin.eof())) {
         std::cout << ">";
         std::cin >> c;
@@ -82,6 +97,15 @@ void HumanPlayer::play() {
         }
     }
     std::cout << ">";
+     */
+
+    Card *temp = new Card(CLUB, SEVEN);
+    if (!gm->isLegalPlay(temp)) {
+        gm->addLegalPlay("7C");
+        gm->addLegalPlay("7D");
+        gm->addLegalPlay("7H");
+    }
+    delete temp;
     gm->setNextPlayer();
     MEM_OFF();
 }

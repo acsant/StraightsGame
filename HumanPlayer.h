@@ -12,7 +12,7 @@
 
 class HumanPlayer: public PlayerStrategy {
 public:
-    void play();
+    void play(Command);
     HumanPlayer();
     ~HumanPlayer();
 };

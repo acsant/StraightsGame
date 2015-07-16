@@ -11,7 +11,7 @@ ComputerPlayer::ComputerPlayer() {
 
 }
 
-void ComputerPlayer::play() {
+void ComputerPlayer::play(Command c) {
     MEM_ON();
     GameManager* gm = GameManager::getInstance();
     bool legalExists = false;
@@ -34,6 +34,13 @@ void ComputerPlayer::play() {
         gm->getCurrentPlayer()->discard(currentCard);
         gm->getCurrentPlayer()->awardPoints(currentCard->getRank() + 1);
     }
+    Card *temp = new Card(CLUB, SEVEN);
+    if (!gm->isLegalPlay(temp)) {
+        gm->addLegalPlay("7C");
+        gm->addLegalPlay("7D");
+        gm->addLegalPlay("7H");
+    }
+    delete temp;
     gm->setNextPlayer();
     MEM_OFF();
 }

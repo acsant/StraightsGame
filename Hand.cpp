@@ -38,7 +38,8 @@ Hand::~Hand() {
 std::ostream &operator<<(std::ostream & sout, const Hand & hand) {
     MEM_ON();
     for (int i = 0; i < hand.card_collection.size(); i++) {
-        sout << " " << *(hand.card_collection[i]);
+        Card *c = hand.card_collection[i];
+        sout << " " << *c;
     }
     MEM_OFF();
     return sout;

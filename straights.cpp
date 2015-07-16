@@ -15,19 +15,19 @@ int main(int argc, char* argv[]) {
     Gtk::Main kit( argc, argv);
     TableGUI window(&controller, gm);
     Gtk::Main::run(window);
-
+/*
     while (!gm->getEndGame()) {
         //gm->createGame();
         std::cout << "A new round begins. It's player " << gm->getCurrentPlayer()->getPlayerId() << "'s turn to play." << std::endl;
-        gm->getCurrentPlayer()->getStrategy()->play();
-        gm->addLegalPlay("7C");
-        gm->addLegalPlay("7D");
-        gm->addLegalPlay("7H");
+        //gm->getCurrentPlayer()->getStrategy()->play();
+        //gm->addLegalPlay("7C");
+        //gm->addLegalPlay("7D");
+        //gm->addLegalPlay("7H");
         Card* c = new Card(SPADE, SEVEN);
         gm->updateLegalCards(c);
         delete c;
         for (int i = 0; i < 51; i++) {
-            gm->getCurrentPlayer()->getStrategy()->play();
+            //gm->getCurrentPlayer()->getStrategy()->play();
         }
         std::map<PlayerID, Player*> playerList = gm->getPlayers();
         Player* temp_player = playerList[1];
@@ -63,7 +63,9 @@ int main(int argc, char* argv[]) {
         gm->resetRound();
 
     }
+
     delete gm;
+    */
     MEM_OFF();
     return 0;
 }

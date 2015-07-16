@@ -240,3 +240,20 @@ void GameManager::resetRound() {
     MEM_OFF();
     //createGame();
 }
+
+void GameManager::play_card(Command command) {
+    current_turn->getStrategy()->play(command);
+    notify();
+}
+
+bool GameManager::has_legal() {
+    Hand* currentHand = current_turn->getHand();
+    bool has_legal = false;
+    std::vector<Card*> player_cards = currentHand->getCards();
+    for (std::vector<Card*>::iterator it = player_cards.begin(); it != player_cards.end(); it++) {
+        if (isLegalPlay(*it)) {
+            return true;
+        }
+    }
+    return has_legal;
+}

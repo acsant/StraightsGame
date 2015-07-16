@@ -35,8 +35,8 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
     for (int i = 0; i < 4; i++) {
         table_row[i] = new Gtk::HBox(true, 10);
         for (int j = 0; j < 13; j++) {
-            table_card[(i+1)*(j+1) - 1] = new Gtk::Image( nullCardPixbuf );
-            (*table_row[i]).add(*table_card[(i+1)*(j+1) - 1]);
+            table_card[i*13 + j] = new Gtk::Image( nullCardPixbuf );
+            (*table_row[i]).add(*table_card[i*13 + j]);
         }
         table_cards.add(*table_row[i]);
     }
@@ -164,20 +164,22 @@ void TableGUI::change_seed() {
 void TableGUI::update() {
     int active_player;
     Glib::RefPtr<Gdk::Pixbuf> cardPixBuf;
-    Hand currentHand = *(gm_->getCurrentPlayer()->getHand());
+    Hand* currentHand = gm_->getCurrentPlayer()->getHand();
     std::map<Suit, std::vector<Rank> *> cards_on_table = gm_->getCardsOnTable();
     if (gm_->getCurrentPlayer()) {
         active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
         for (int i = 0; i < 4; i++) {
             if (i+1 != active_player) {
                 rage_quit[i]->set_sensitive(false);
+            } else {
+                rage_quit[i]->set_sensitive(true);
             }
         }
         for (int i = 0; i < 13; i++) {
-            Card currentCard = *(currentHand.getCards().at(i));
-            cardPixBuf = deck.image(currentCard.getSuit(), currentCard.getRank());
+            Card* currentCard = currentHand->getCards().at(i);
+            cardPixBuf = deck.image(currentCard->getSuit(), currentCard->getRank());
             hand_card[i]->set(cardPixBuf);
-            if (!gm_->isLegalPlay(&currentCard)) {
+            if (!gm_->isLegalPlay(currentCard)) {
                 hand_card[i]->set_sensitive(false);
             }
         }
@@ -187,10 +189,15 @@ void TableGUI::update() {
         std::vector<Rank> cards_of_rank = *(*it).second;
         for (int j = 0; j < cards_of_rank.size(); j++) {
             cardPixBuf = deck.image((*it).first, cards_of_rank[j]);
-            table_card[(k+1)*(j+1) - 1]->set(cardPixBuf);
+            int num = (*it).first*13 + cards_of_rank[j];
+            table_card[num]->set(cardPixBuf);
         }
         k++;
     }
+    Player* updated_player = gm_->getPlayers().find(active_player)->second;
+    std::vector<int> roundScores = updated_player->getRoundScores();
+    (*player_score_label[active_player - 1]).set_label(std::to_string(updated_player->getGameScore() + roundScores.at(roundScores.size() - 1)) + " points");
+    //delete currentHand;
 
 }
 

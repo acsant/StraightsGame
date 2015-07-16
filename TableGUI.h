@@ -59,6 +59,7 @@ private:
     void play_card(int);
     void start_new_game();
     void change_seed();
+    void updateGUIScore();
     void update();
 
 };
