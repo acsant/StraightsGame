@@ -79,6 +79,7 @@ void GameManager::addPlayersToGame(std::vector<Glib::ustring> type) {
         }
         players.insert(std::pair<PlayerID, Player*>(id, player));
     }
+    notify();
     MEM_OFF();
 }
 

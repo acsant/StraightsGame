@@ -12,7 +12,7 @@ class Controller {
 public:
     Controller(GameManager*);
     void newGameButtonClicked(std::vector<Glib::ustring>);
-    void setSeed(std::string seed);
+    void setSeed(int seed);
 private:
     GameManager *gm_;
 };

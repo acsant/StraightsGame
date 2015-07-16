@@ -21,7 +21,7 @@
 #include "GameManager.h"
 #include "Controller.h"
 
-class TableGUI: public Gtk::Window {
+class TableGUI: public Gtk::Window, public Observer {
 public:
     TableGUI(Controller*, GameManager*);
     virtual ~TableGUI();
@@ -53,12 +53,12 @@ private:
     Gtk::Button changeSeedButton;
     Gtk::Button endGameButton;
 
-    int oldseed;
     int newseed;
 
     void player_buttonAction(int);
     void start_new_game();
     void change_seed();
+    void update();
 
 };
 

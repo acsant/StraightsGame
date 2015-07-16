@@ -103,7 +103,7 @@ void TableGUI::player_buttonAction(int button) {
 }
 
 void TableGUI::change_seed() {
-    Gtk::Dialog dialog( "Enter New Seed Value", *this );
+    Gtk::Dialog dialog( "Enter New Seed Value", *this, true, true);
 
     Gtk::Entry   nameField;                  // Text entry for the user's seed
     Gtk::Label   nameLabel( "Please enter the seed value:" );
@@ -131,6 +131,7 @@ void TableGUI::change_seed() {
             s << nameField.get_text().raw();
             s >> newseed;
             std::cout << "Entered '" << newseed << "'" << std::endl;
+            controller->setSeed(newseed);
             break;
         case Gtk::RESPONSE_CANCEL:
             std::cout << "dialog cancelled" << std::endl;
@@ -145,16 +146,6 @@ void TableGUI::change_seed() {
 
 void TableGUI::start_new_game() {
 
-    //call change seed function in controller if needed
-    if (oldseed == newseed)
-    {
-        std::cout << "Seed value not changed." << std::endl;
-    }
-    else
-    {
-        std::cout << "Seed value changed to " << newseed << std::endl;
-    }
-
     std::vector<Glib::ustring> player_types;
     for (Gtk::Button* button : rage_quit) {
         player_types.push_back(button->get_label());
@@ -163,4 +154,5 @@ void TableGUI::start_new_game() {
     controller->newGameButtonClicked(player_types);
 }
 
+void TableGUI::update() {}
 
