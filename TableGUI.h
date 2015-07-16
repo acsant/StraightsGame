@@ -44,6 +44,7 @@ private:
     Gtk::Button endGameButton;
 
     void player_buttonAction(int);
+    void start_new_game();
 
 };
 

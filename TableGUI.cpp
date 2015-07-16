@@ -77,6 +77,8 @@ TableGUI::TableGUI() : main_panel(false, 10), players_panel(false, 10), hand_hbo
     } // for
     hand_hbox.set_border_width(10);
 
+    // On start of a new game
+    newGameButton.signal_clicked().connect(sigc::mem_fun(*this, &TableGUI::start_new_game));
 
     // The final step is to display this newly created widget.
     show_all();
@@ -92,5 +94,12 @@ void TableGUI::player_buttonAction(int button) {
         (*rage_quit[button]).set_label("Computer");
     } else if (label == "Computer") {
         (*rage_quit[button]).set_label("Human");
+    }
+}
+
+void TableGUI::start_new_game() {
+    std::vector<Glib::ustring> player_types;
+    for (Gtk::Button* button : rage_quit) {
+        player_types.push_back(button->get_label());
     }
 }
