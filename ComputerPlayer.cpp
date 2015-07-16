@@ -45,3 +45,7 @@ void ComputerPlayer::play(Command c) {
 }
 
 ComputerPlayer::~ComputerPlayer() { }
+
+bool ComputerPlayer::isHuman() {
+    return false;
+}

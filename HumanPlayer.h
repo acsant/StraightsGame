@@ -13,6 +13,7 @@
 class HumanPlayer: public PlayerStrategy {
 public:
     void play(Command);
+    bool isHuman();
     HumanPlayer();
     ~HumanPlayer();
 };

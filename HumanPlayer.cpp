@@ -108,3 +108,7 @@ void HumanPlayer::play(Command c) {
     delete temp;
     MEM_OFF();
 }
+
+bool HumanPlayer::isHuman() {
+    return true;
+}

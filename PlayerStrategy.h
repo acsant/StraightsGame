@@ -9,6 +9,7 @@
 class PlayerStrategy {
 public:
     virtual void play(Command) = 0;
+    virtual bool isHuman() = 0;
 };
 
 #endif //STRAIGHTS_PLAYERSTRATEGY_H

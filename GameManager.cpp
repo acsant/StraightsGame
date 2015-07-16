@@ -223,6 +223,11 @@ void GameManager::setNextPlayer() {
     int temp_id = current_turn->getPlayerId().player_id;
     PlayerID next_id ((temp_id % 4) + 1);
     current_turn = players[next_id];
+    if (!current_turn->getStrategy()->isHuman()) {
+        Command c;
+        current_turn->getStrategy()->play(c);
+        notify();
+    }
     MEM_OFF();
 }
 

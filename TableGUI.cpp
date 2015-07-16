@@ -174,6 +174,7 @@ void TableGUI::update() {
     if (gm_->getLegalPlays().size() > 1) {
         controller->setNextPlayer();
     }
+
     currentHand = gm_->getCurrentPlayer()->getHand();
     active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
     std::stringstream playerStream;
@@ -184,13 +185,13 @@ void TableGUI::update() {
     player.erase(0, player.find_first_not_of('0'));
     //update all cards
     updateCards(player, active_player, currentHand);
-
     //delete currentHand;
 
 }
 
 void TableGUI::play_card(int index) {
     controller->play_card(index);
+
 }
 
 void TableGUI::updateCards(std::string player, int active_player, Hand* currentHand){

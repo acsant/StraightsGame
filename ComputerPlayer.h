@@ -14,6 +14,7 @@ class ComputerPlayer: public PlayerStrategy {
 
 public:
     void play(Command);
+    bool isHuman();
     ComputerPlayer();
     ~ComputerPlayer();
 };
