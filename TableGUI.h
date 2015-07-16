@@ -13,6 +13,7 @@
 #include <gtkmm/table.h>
 #include "DeckGUI.h"
 #include "Card.h"
+#include <iostream>
 
 class TableGUI: public Gtk::Window {
 public:
@@ -42,7 +43,7 @@ private:
     Gtk::Button newGameButton;
     Gtk::Button endGameButton;
 
-    void player_buttonAction();
+    void player_buttonAction(int);
 
 };
 

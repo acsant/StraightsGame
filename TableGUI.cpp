@@ -53,6 +53,7 @@ TableGUI::TableGUI() : main_panel(false, 10), players_panel(false, 10), hand_hbo
         rage_quit[i-1] = new Gtk::Button();
         (*player_info[i-1]).add(*rage_quit[i-1]);
         (*rage_quit[i-1]).set_label("Human");
+        (*rage_quit[i-1]).signal_clicked().connect(sigc::bind<int>(sigc::mem_fun(*this, &TableGUI::player_buttonAction), i-1));
         (*rage_quit[i-1]).set_border_width(5);
         // Scores
         player_score_label[i-1] = new Gtk::Label();
@@ -85,6 +86,11 @@ TableGUI::~TableGUI() {
     for (int i = 0; i < 5; i++ ) delete hand_card[i];
 }
 
-void TableGUI::player_buttonAction() {
-    if () {}
+void TableGUI::player_buttonAction(int button) {
+    Glib::ustring label = (*rage_quit[button]).get_label();
+    if (label == "Human") {
+        (*rage_quit[button]).set_label("Computer");
+    } else if (label == "Computer") {
+        (*rage_quit[button]).set_label("Human");
+    }
 }
