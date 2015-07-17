@@ -64,6 +64,7 @@ public:
     bool isNewRound();
     void setNewRound(bool);
     void deletePlayers();
+    void resetTableCards();
     ~GameManager();
 };
 

@@ -80,3 +80,7 @@ void Controller::setEndGame(bool b) {
 void Controller::removePlayers() {
     gm_->deletePlayers();
 }
+
+void Controller::resetTableCards() {
+    gm_->resetTableCards();
+}

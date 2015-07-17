@@ -20,6 +20,7 @@ public:
     void setNewRound(bool);
     void setEndGame(bool);
     void removePlayers();
+    void resetTableCards();
 private:
     GameManager *gm_;
 };

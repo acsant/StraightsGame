@@ -200,7 +200,7 @@ void TableGUI::update() {
         controller->setNewRound(false);
         controller->setEndGame(false);
         Gtk::Dialog dialog( "Notification", *this, true, true);
-        Glib::ustring turn_notification = "The game has started. It is Player " + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
+        Glib::ustring turn_notification = "New round begins. It is Player " + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
         Gtk::Label   nameLabel( turn_notification );
         Gtk::VBox* contentArea = dialog.get_vbox();
         contentArea->pack_start( nameLabel, true, false );
@@ -234,10 +234,11 @@ void TableGUI::check_round_end() {
             end_round = false;
         }
     }
-    //currPlayer = NULL;
-    //delete currPlayer;
+    currPlayer = NULL;
+    delete currPlayer;
     if (end_round) {
         controller->resetRound();
+        resetGUI();
     }
 }
 
@@ -249,6 +250,7 @@ void TableGUI::resetGUI(){
     for (int i = 0; i < 13; i++) {
         (*hand_card[i]).set(nullCardPixbuf);
     }
+    controller->resetTableCards();
 }
 
 void TableGUI::play_card(int index) {

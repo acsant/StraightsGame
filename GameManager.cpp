@@ -310,3 +310,7 @@ void GameManager::deletePlayers() {
     players.clear();
     current_turn = NULL;
 }
+
+void GameManager::resetTableCards() {
+    cards_on_table.clear();
+}
