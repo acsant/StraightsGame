@@ -20,6 +20,7 @@ private:
     std::map<Suit, std::vector<Rank>*> cards_on_table;
     bool endGame;
     bool round_ended;
+    bool new_round;
     static bool created;
     static GameManager * gm;
     static int shuffle_seed;
@@ -49,7 +50,7 @@ public:
     int getCurrentRound() const;
     void nextRound();
     bool getEndGame() const;
-    void setEndGame();
+    void setEndGame(bool);
     void setNextPlayer();
     void rage_quit(Command);
     std::map<PlayerID, Player*> getPlayers() const;
@@ -59,6 +60,10 @@ public:
     std::vector<std::string> getLegalPlays();
     void set_round_end(bool);
     bool get_round_end();
+    void checkEndGame(std::map<PlayerID, Player*>, int );
+    bool isNewRound();
+    void setNewRound(bool);
+    void deletePlayers();
     ~GameManager();
 };
 

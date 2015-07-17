@@ -17,13 +17,12 @@ void Controller::setSeed(int seed) {
 
 void Controller::play_card(int index) {
     std::vector<Card*> current_hand = gm_->getCurrentPlayer()->getHand()->getCards();
-    Card card = *current_hand.at(index);
+    Card& card = *current_hand.at(index);
     Command c;
     if (gm_->has_legal()) {
         c = Command::Command(PLAY, card);
     } else {
         c = Command::Command(DISCARD, card);
-
     }
     gm_->play_card(c);
 }
@@ -49,8 +48,8 @@ void Controller::resetRound() {
     for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
         std::cout << "Player " << it->first << "'s discards:";
         std::vector<Card*> playerDiscards = it->second->getDiscards();
-        for (std::vector<Card*>::iterator it = playerDiscards.begin(); it != playerDiscards.end(); it++) {
-            std::cout << " " << *(*it);
+        for (int i = 0; i < playerDiscards.size(); i++) {
+            std::cout << " " << *(playerDiscards[i]);
         }
         std::cout << std::endl;
         std::vector<int> roundScore = it->second->getRoundScores();
@@ -62,16 +61,22 @@ void Controller::resetRound() {
         roundScore[gm_->getCurrentRound() - 1] << " = " << totalScore << std::endl;
         it->second->setGameScore(totalScore);
         if (totalScore >= 80) {
-            gm_->setEndGame();
+            gm_->setEndGame(true);
         }
     }
-    if (gm_->getEndGame()) {
-        for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
-            if (it->second->getGameScore() == lowestScore) {
-                std::cout << "Player " << it->first << " wins!" << std::endl;
-            }
-        }
-    }
+    gm_->checkEndGame(playerList, lowestScore);
     gm_->nextRound();
     gm_->resetRound();
+}
+
+void Controller::setNewRound(bool b) {
+    gm_->setNewRound(b);
+}
+
+void Controller::setEndGame(bool b) {
+    gm_->setEndGame(b);
+}
+
+void Controller::removePlayers() {
+    gm_->deletePlayers();
 }

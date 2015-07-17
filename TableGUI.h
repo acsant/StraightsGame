@@ -24,6 +24,16 @@
 class TableGUI: public Gtk::Window, public Observer {
 public:
     TableGUI(Controller*, GameManager*);
+    void player_buttonAction(int);
+    void updateCards(std::string player, int active_player, Hand* currentHand);
+    void play_card(int);
+    void start_new_game();
+    void rageQuit();
+    void change_seed();
+    void update();
+    void check_round_end();
+    void resetGUI();
+    void resetGame();
     virtual ~TableGUI();
 private:
     Controller* controller;
@@ -53,14 +63,7 @@ private:
 
     int newseed;
 
-    void player_buttonAction(int);
-    void updateCards(std::string player, int active_player, Hand* currentHand);
-    void play_card(int);
-    void start_new_game();
-    void rageQuit();
-    void change_seed();
-    void update();
-    void check_round_end();
+
 };
 
 

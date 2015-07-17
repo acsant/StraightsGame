@@ -49,8 +49,10 @@ void HumanPlayer::play(Command c) {
         }
     } else if (c.type == DISCARD) {
         std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " discards " << c.card << "." << std::endl;
-        gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
-        gm->getCurrentPlayer()->discard(&c.card);
+        Card* h = gm->getCurrentPlayer()->getHand()->findCard(c.card);
+        gm->getCurrentPlayer()->getHand()->removeCard(h);
+        gm->getCurrentPlayer()->discard(h);
+        std::cerr << c.card << "\n";
         gm->getCurrentPlayer()->awardPoints(c.card.getRank() + 1);
     } else if (c.type == RAGEQUIT) {
         gm->getCurrentPlayer()->reassessStrategy();

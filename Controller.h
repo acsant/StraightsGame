@@ -17,6 +17,9 @@ public:
     void setNextPlayer();
     void rageQuit();
     void resetRound();
+    void setNewRound(bool);
+    void setEndGame(bool);
+    void removePlayers();
 private:
     GameManager *gm_;
 };

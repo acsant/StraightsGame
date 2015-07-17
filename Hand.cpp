@@ -69,3 +69,12 @@ void Hand::removeAll() {
     int a = size;
     MEM_OFF();
 }
+
+Card* Hand::findCard(Card &card) {
+    for (int i = 0; i < card_collection.size(); i++) {
+        if (card_collection[i]->getRank() == card.getRank() && card_collection[i]->getSuit() == card.getSuit()) {
+            return card_collection[i];
+        }
+    }
+    return &card;
+}

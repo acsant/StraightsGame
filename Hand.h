@@ -21,6 +21,7 @@ public:
     std::vector<Card*> getCards() const;
     Card * removeCard(Card*);
     void removeAll();
+    Card* findCard(Card&);
     ~Hand();
 };
 

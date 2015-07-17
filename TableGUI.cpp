@@ -102,7 +102,6 @@ void TableGUI::player_buttonAction(int button) {
 }
 
 void TableGUI::start_new_game() {
-
     std::vector<Glib::ustring> player_types;
     for (Gtk::Button* button : rage_quit) {
         player_types.push_back(button->get_label());
@@ -112,14 +111,6 @@ void TableGUI::start_new_game() {
     for (int i = 0; i < 4; i++) {
         (*rage_quit[i]).signal_clicked().connect(sigc::mem_fun(*this, &TableGUI::rageQuit));
     }
-    Gtk::Dialog dialog( "Notification", *this, true, true);
-    Glib::ustring turn_notification = "The game has started. It is Player " + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
-    Gtk::Label   nameLabel( turn_notification );
-    Gtk::VBox* contentArea = dialog.get_vbox();
-    contentArea->pack_start( nameLabel, true, false );
-    Gtk::Button * okButton = dialog.add_button( Gtk::Stock::OK, Gtk::RESPONSE_OK);
-    nameLabel.show();
-    int res = dialog.run();
 }
 
 void TableGUI::change_seed() {
@@ -186,12 +177,50 @@ void TableGUI::update() {
         std::string player = "";
         player = playerStream.str();
         player.erase(0, player.find_first_not_of('0'));
-    //update all cards
+        //update all cards
         updateCards(player, active_player, currentHand);
-    //delete currentHand;
+        //delete currentHand;
         if(!gm_->get_round_end()) {
             check_round_end();
         }
+    }
+    if (gm_->getEndGame()) {
+        Gtk::Dialog dialog("Game Over", *this, true, true);
+        Glib::ustring turn_notification = "Game Has Ended.";
+        Gtk::Label nameLabel(turn_notification);
+        Gtk::VBox *contentArea = dialog.get_vbox();
+        contentArea->pack_start(nameLabel, true, false);
+        Gtk::Button *okButton = dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+        nameLabel.show();
+        dialog.run();
+        controller->setEndGame(false);
+        resetGame();
+    }
+    if (gm_->isNewRound() && !gm_->getEndGame()) {
+        controller->setNewRound(false);
+        controller->setEndGame(false);
+        Gtk::Dialog dialog( "Notification", *this, true, true);
+        Glib::ustring turn_notification = "The game has started. It is Player " + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
+        Gtk::Label   nameLabel( turn_notification );
+        Gtk::VBox* contentArea = dialog.get_vbox();
+        contentArea->pack_start( nameLabel, true, false );
+        Gtk::Button * okButton = dialog.add_button( Gtk::Stock::OK, Gtk::RESPONSE_OK);
+        nameLabel.show();
+        int res = dialog.run();
+        if (!gm_->getCurrentPlayer()->getStrategy()->isHuman()) {
+            controller->play_card(0);
+        }
+    }
+}
+
+void TableGUI::resetGame() {
+    resetGUI();
+    controller->removePlayers();
+    for (int i = 0; i < 4; i++) {
+        (*player_score_label[i]).set_label("0 points");
+        (*discard_label[i]).set_label("0 discards");
+        (*rage_quit[i]).set_label("Human");
+        (*rage_quit[i-1]).signal_clicked().connect(sigc::bind<int>(sigc::mem_fun(*this, &TableGUI::player_buttonAction), i-1));
     }
 }
 
@@ -205,10 +234,20 @@ void TableGUI::check_round_end() {
             end_round = false;
         }
     }
-    currPlayer = NULL;
-    delete currPlayer;
+    //currPlayer = NULL;
+    //delete currPlayer;
     if (end_round) {
         controller->resetRound();
+    }
+}
+
+void TableGUI::resetGUI(){
+    const Glib::RefPtr<Gdk::Pixbuf> nullCardPixbuf = deck.null();
+    for (int i = 0; i < 52; i++) {
+        (*table_card[i]).set(nullCardPixbuf);
+    }
+    for (int i = 0; i < 13; i++) {
+        (*hand_card[i]).set(nullCardPixbuf);
     }
 }
 
@@ -228,6 +267,7 @@ void TableGUI::play_card(int index) {
         } else {
             controller->play_card(index);
         }
+
     }
 }
 
@@ -283,3 +323,4 @@ void TableGUI::updateCards(std::string player, int active_player, Hand* currentH
 void TableGUI::rageQuit() {
     controller->rageQuit();
 }
+

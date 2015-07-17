@@ -33,6 +33,7 @@ GameManager::GameManager() {
     endGame = false;
     currentRound = 1;
     round_ended = false;
+    new_round = false;
     MEM_OFF();
 }
 
@@ -58,6 +59,8 @@ void GameManager::createGame() {
     deck = Deck::getInstance();
     deck->setSeed(shuffle_seed);
     deck->shuffle();
+    round_ended = false;
+    new_round = true;
     dealCards();
     MEM_OFF();
 }
@@ -215,8 +218,8 @@ std::map<PlayerID, Player *> GameManager::getPlayers() const {
     return players;
 }
 
-void GameManager::setEndGame() {
-    endGame  = true;
+void GameManager::setEndGame(bool b) {
+    endGame  = b;
 }
 
 void GameManager::setNextPlayer() {
@@ -235,7 +238,6 @@ void GameManager::setNextPlayer() {
 void GameManager::resetRound() {
     //delete deck;
     MEM_ON();
-    endGame = false;
     legalPlays.clear();
     legalPlays.push_back("7S");
     for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
@@ -244,7 +246,7 @@ void GameManager::resetRound() {
         it->second->resetPlayer();
     }
     MEM_OFF();
-    //createGame();
+    createGame();
 }
 
 void GameManager::play_card(Command command) {
@@ -280,4 +282,31 @@ void GameManager::set_round_end(bool ended) {
 
 bool GameManager::get_round_end() {
     return round_ended;
+}
+
+void GameManager::checkEndGame(std::map<PlayerID, Player*> playerList, int lowestScore) {
+    if (endGame) {
+        for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
+            if (it->second->getGameScore() == lowestScore) {
+                std::cout << "Player " << it->first << " wins!" << std::endl;
+            }
+        }
+        notify();
+    }
+}
+
+bool GameManager::isNewRound() {
+    return new_round;
+}
+
+void GameManager::setNewRound(bool b) {
+    new_round = b;
+}
+
+void GameManager::deletePlayers() {
+    for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
+        delete (*it).second;
+    }
+    players.clear();
+    current_turn = NULL;
 }
