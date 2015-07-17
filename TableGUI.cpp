@@ -280,17 +280,13 @@ void TableGUI::updateCards(std::string player, int active_player, Hand* currentH
     your_hand_frame.set_label("Player " + player + "'s Hand");
     // If its the current player, set all the cards and change player turn
     if (gm_->getCurrentPlayer()) {
-        std::pair<PlayerID, Player*> tempMap = *(gm_->getPlayers().find(active_player));
-        Player* temp = tempMap.second;
         for (int i = 0; i < 4; i++) {
-            if (i+1 != active_player || !temp->getStrategy()->isHuman()) {
+            if (i+1 != active_player) {
                 rage_quit[i]->set_sensitive(false);
             } else {
                 rage_quit[i]->set_sensitive(true);
             }
         }
-        temp = NULL;
-        delete temp;
         for (int i = 0; i < currentHand->numberOfCards(); i++) {
             Card* currentCard = currentHand->getCards().at(i);
             cardPixBuf = deck.image(currentCard->getSuit(), currentCard->getRank());
