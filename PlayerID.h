@@ -17,6 +17,7 @@ public:
     int player_id;
     PlayerID();
     PlayerID(int);
+    void resetID();
 };
 
 std::ostream &operator<<(std::ostream &, const PlayerID &);

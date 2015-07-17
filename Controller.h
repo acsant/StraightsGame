@@ -21,6 +21,8 @@ public:
     void setEndGame(bool);
     void removePlayers();
     void resetTableCards();
+    void gameStarted(bool);
+    void resetWinnerNotification();
 private:
     GameManager *gm_;
 };

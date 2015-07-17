@@ -31,6 +31,7 @@ GameManager::GameManager() {
     legalPlays = std::vector<std::string>();
     legalPlays.push_back("7S");
     endGame = false;
+    gameStart = false;
     currentRound = 1;
     round_ended = false;
     new_round = false;
@@ -246,7 +247,9 @@ void GameManager::resetRound() {
         it->second->resetPlayer();
     }
     MEM_OFF();
-    createGame();
+    if (!endGame) {
+        createGame();
+    }
 }
 
 void GameManager::play_card(Command command) {
@@ -271,9 +274,11 @@ std::vector<std::string> GameManager::getLegalPlays() {
 }
 
 void GameManager::rage_quit(Command c) {
-    current_turn->getStrategy()->play(c);
-    current_turn->getStrategy()->play(c);
-    notify();
+    if (!endGame) {
+        current_turn->getStrategy()->play(c);
+        current_turn->getStrategy()->play(c);
+        notify();
+    }
 }
 
 void GameManager::set_round_end(bool ended) {
@@ -289,6 +294,10 @@ void GameManager::checkEndGame(std::map<PlayerID, Player*> playerList, int lowes
         for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
             if (it->second->getGameScore() == lowestScore) {
                 std::cout << "Player " << it->first << " wins!" << std::endl;
+                std::stringstream ss;
+                ss.clear();
+                ss << it->first;
+                winner_notification += "Player " + ss.str() + " wins!\n";
             }
         }
         notify();
@@ -312,5 +321,28 @@ void GameManager::deletePlayers() {
 }
 
 void GameManager::resetTableCards() {
+    for (std::map<Suit, std::vector<Rank> *>::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
+        delete (*it).second;
+    }
     cards_on_table.clear();
+    for (int i = 0; i < SUIT_COUNT; i++) {
+        cards_on_table.insert(std::pair<Suit, std::vector<Rank>* >(Suit(i), new std::vector<Rank>()));
+    }
+}
+
+void GameManager::setGameStarted(bool b) {
+    gameStart = b;
+}
+
+bool GameManager::getGameStarted() {
+    return gameStart;
+}
+
+
+std::string GameManager::getWinnerNotification() {
+    return winner_notification;
+}
+
+void GameManager::setWinnerNotification(std::string s) {
+    winner_notification = s;
 }

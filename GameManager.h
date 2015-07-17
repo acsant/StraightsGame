@@ -19,6 +19,7 @@ class GameManager: public Subject {
 private:
     std::map<Suit, std::vector<Rank>*> cards_on_table;
     bool endGame;
+    bool gameStart;
     bool round_ended;
     bool new_round;
     static bool created;
@@ -29,6 +30,7 @@ private:
     std::vector<std::string> legalPlays;
     std::map<PlayerID, Player*> players;
     int currentRound;
+    std::string winner_notification;
     GameManager();
 
 public:
@@ -65,6 +67,10 @@ public:
     void setNewRound(bool);
     void deletePlayers();
     void resetTableCards();
+    void setGameStarted(bool);
+    bool getGameStarted();
+    std::string getWinnerNotification();
+    void setWinnerNotification(std::string);
     ~GameManager();
 };
 

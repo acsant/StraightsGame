@@ -20,9 +20,9 @@ void Controller::play_card(int index) {
     Card& card = *current_hand.at(index);
     Command c;
     if (gm_->has_legal()) {
-        c = Command::Command(PLAY, card);
+        c = Command(PLAY, card);
     } else {
-        c = Command::Command(DISCARD, card);
+        c = Command(DISCARD, card);
     }
     gm_->play_card(c);
 }
@@ -83,4 +83,13 @@ void Controller::removePlayers() {
 
 void Controller::resetTableCards() {
     gm_->resetTableCards();
+}
+
+void Controller::gameStarted(bool b) {
+    gm_->setGameStarted(b);
+
+}
+
+void Controller::resetWinnerNotification() {
+    gm_->setWinnerNotification("");
 }

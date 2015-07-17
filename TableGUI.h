@@ -38,7 +38,7 @@ public:
 private:
     Controller* controller;
     GameManager* gm_;
-
+    bool round_update;
     DeckGUI deck;
     Gtk::VBox main_panel;
     Gtk::Frame *player_frame[4];
@@ -60,7 +60,6 @@ private:
     Gtk::Button newGameButton;
     Gtk::Button changeSeedButton;
     Gtk::Button endGameButton;
-
     int newseed;
 
 
