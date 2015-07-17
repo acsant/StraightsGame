@@ -42,5 +42,35 @@ void Controller::rageQuit() {
 }
 
 void Controller::resetRound() {
+    std::map<PlayerID, Player*> playerList = gm_->getPlayers();
+    Player* temp_player = playerList[1];
+    int lowestScore = temp_player->getRoundScores().at(gm_->getCurrentRound() - 1) + temp_player->getGameScore();
+    for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
+        std::cout << "Player " << it->first << "'s discards:";
+        std::vector<Card*> playerDiscards = it->second->getDiscards();
+        for (std::vector<Card*>::iterator it = playerDiscards.begin(); it != playerDiscards.end(); it++) {
+            std::cout << " " << *(*it);
+        }
+        std::cout << std::endl;
+        std::vector<int> roundScore = it->second->getRoundScores();
+        int totalScore = it->second->getGameScore() + roundScore[gm_->getCurrentRound() - 1];
+        if (totalScore < lowestScore) {
+            lowestScore = totalScore;
+        }
+        std::cout << "Player " << it->first << "'s score: " << it->second->getGameScore() << " + " <<
+        roundScore[gm_->getCurrentRound() - 1] << " = " << totalScore << std::endl;
+        it->second->setGameScore(totalScore);
+        if (totalScore >= 80) {
+            gm_->setEndGame();
+        }
+    }
+    if (gm_->getEndGame()) {
+        for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
+            if (it->second->getGameScore() == lowestScore) {
+                std::cout << "Player " << it->first << " wins!" << std::endl;
+            }
+        }
+    }
+    gm_->nextRound();
     gm_->resetRound();
 }

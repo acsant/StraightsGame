@@ -60,7 +60,7 @@ private:
     void rageQuit();
     void change_seed();
     void update();
-
+    void check_round_end();
 };
 
 

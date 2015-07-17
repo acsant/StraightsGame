@@ -189,7 +189,24 @@ void TableGUI::update() {
     //update all cards
     updateCards(player, active_player, currentHand);
     //delete currentHand;
+    check_round_end();
+}
 
+void TableGUI::check_round_end() {
+    bool end_round = true;
+    std::map<PlayerID, Player*> players = gm_->getPlayers();
+    Player* currPlayer = gm_->getCurrentPlayer();
+    for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
+        currPlayer = (*it).second;
+        if (currPlayer->getHand()->numberOfCards() > 0) {
+            end_round = false;
+        }
+    }
+    currPlayer = NULL;
+    delete currPlayer;
+    if (end_round) {
+        controller->resetRound();
+    }
 }
 
 void TableGUI::play_card(int index) {
