@@ -33,3 +33,14 @@ void Controller::setNextPlayer() {
     gm_->setNextPlayer();
 
 }
+
+void Controller::rageQuit() {
+    Card* card = new Card(SPADE, SEVEN);
+    Command c(RAGEQUIT, *card);
+    gm_->rage_quit(c);
+    delete card;
+}
+
+void Controller::resetRound() {
+    gm_->resetRound();
+}

@@ -15,6 +15,8 @@ public:
     void setSeed(int seed);
     void play_card(int);
     void setNextPlayer();
+    void rageQuit();
+    void resetRound();
 private:
     GameManager *gm_;
 };

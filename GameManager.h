@@ -50,6 +50,7 @@ public:
     bool getEndGame() const;
     void setEndGame();
     void setNextPlayer();
+    void rage_quit(Command);
     std::map<PlayerID, Player*> getPlayers() const;
     void resetRound();
     void play_card(Command);

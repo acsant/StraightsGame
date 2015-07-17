@@ -57,6 +57,7 @@ private:
     void updateCards(std::string player, int active_player, Hand* currentHand);
     void play_card(int);
     void start_new_game();
+    void rageQuit();
     void change_seed();
     void update();
 

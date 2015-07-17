@@ -109,8 +109,11 @@ void TableGUI::start_new_game() {
         button->set_label("Rage!");
     }
     controller->newGameButtonClicked(player_types);
+    for (int i = 0; i < 4; i++) {
+        (*rage_quit[i]).signal_clicked().connect(sigc::mem_fun(*this, &TableGUI::rageQuit));
+    }
     Gtk::Dialog dialog( "Notification", *this, true, true);
-    Glib::ustring turn_notification = "The game has started. It is Player" + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
+    Glib::ustring turn_notification = "The game has started. It is Player " + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
     Gtk::Label   nameLabel( turn_notification );
     Gtk::VBox* contentArea = dialog.get_vbox();
     contentArea->pack_start( nameLabel, true, false );
@@ -190,8 +193,22 @@ void TableGUI::update() {
 }
 
 void TableGUI::play_card(int index) {
-    controller->play_card(index);
-
+    std::vector<Card*> current_hand = gm_->getCurrentPlayer()->getHand()->getCards();
+    if (index < gm_->getCurrentPlayer()->getHand()->numberOfCards()) {
+        Card card = *current_hand.at(index);
+        if (gm_->has_legal() && !gm_->isLegalPlay(&card)) {
+            Gtk::Dialog dialog("ERROR", *this, true, true);
+            Glib::ustring turn_notification = "This is not a legal play.";
+            Gtk::Label nameLabel(turn_notification);
+            Gtk::VBox *contentArea = dialog.get_vbox();
+            contentArea->pack_start(nameLabel, true, false);
+            Gtk::Button *okButton = dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+            nameLabel.show();
+            dialog.run();
+        } else {
+            controller->play_card(index);
+        }
+    }
 }
 
 void TableGUI::updateCards(std::string player, int active_player, Hand* currentHand){
@@ -212,6 +229,7 @@ void TableGUI::updateCards(std::string player, int active_player, Hand* currentH
             Card* currentCard = currentHand->getCards().at(i);
             cardPixBuf = deck.image(currentCard->getSuit(), currentCard->getRank());
             hand_card[i]->set(cardPixBuf);
+            hand_button[i]->set_sensitive(true);
             if (!gm_->isLegalPlay(currentCard)) {
                 hand_card[i]->set_sensitive(false);
             } else {
@@ -222,6 +240,7 @@ void TableGUI::updateCards(std::string player, int active_player, Hand* currentH
             for (int i = 12; i >= currentHand->numberOfCards(); i--) {
                 hand_card[i]->set(nullCardPixbuf);
                 hand_card[i]->set_sensitive(false);
+                hand_button[i]->set_sensitive(false);
             }
         }
     }
@@ -237,3 +256,6 @@ void TableGUI::updateCards(std::string player, int active_player, Hand* currentH
     }
 }
 
+void TableGUI::rageQuit() {
+    controller->rageQuit();
+}

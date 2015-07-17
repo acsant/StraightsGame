@@ -52,6 +52,9 @@ void HumanPlayer::play(Command c) {
         gm->getCurrentPlayer()->getHand()->removeCard(&c.card);
         gm->getCurrentPlayer()->discard(&c.card);
         gm->getCurrentPlayer()->awardPoints(c.card.getRank() + 1);
+    } else if (c.type == RAGEQUIT) {
+        gm->getCurrentPlayer()->reassessStrategy();
+        std::cout << "Player " << gm->getCurrentPlayer()->getPlayerId() << " ragequits. A computer will now take over." << std::endl;
     }
     /*
     while (!(std::cin.eof())) {

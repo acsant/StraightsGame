@@ -266,3 +266,9 @@ bool GameManager::has_legal() {
 std::vector<std::string> GameManager::getLegalPlays() {
     return legalPlays;
 }
+
+void GameManager::rage_quit(Command c) {
+    current_turn->getStrategy()->play(c);
+    current_turn->getStrategy()->play(c);
+    notify();
+}
