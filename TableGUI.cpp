@@ -174,22 +174,25 @@ void TableGUI::update() {
     ss << discard;
     (*discard_label[active_player - 1]).set_label(ss.str() + " discards");
     // Controller changes to next player
-    if (gm_->getLegalPlays().size() > 1) {
-        controller->setNextPlayer();
-    }
-
-    currentHand = gm_->getCurrentPlayer()->getHand();
-    active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
-    std::stringstream playerStream;
-    playerStream.clear();
-    playerStream << active_player;
-    std::string player = "";
-    player = playerStream.str();
-    player.erase(0, player.find_first_not_of('0'));
+    if(!gm_->get_round_end()) {
+        if (gm_->getLegalPlays().size() > 1) {
+            controller->setNextPlayer();
+        }
+        currentHand = gm_->getCurrentPlayer()->getHand();
+        active_player = gm_->getCurrentPlayer()->getPlayerId().player_id;
+        std::stringstream playerStream;
+        playerStream.clear();
+        playerStream << active_player;
+        std::string player = "";
+        player = playerStream.str();
+        player.erase(0, player.find_first_not_of('0'));
     //update all cards
-    updateCards(player, active_player, currentHand);
+        updateCards(player, active_player, currentHand);
     //delete currentHand;
-    check_round_end();
+        if(!gm_->get_round_end()) {
+            check_round_end();
+        }
+    }
 }
 
 void TableGUI::check_round_end() {

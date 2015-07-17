@@ -42,6 +42,7 @@ void Controller::rageQuit() {
 }
 
 void Controller::resetRound() {
+    gm_->set_round_end(true);
     std::map<PlayerID, Player*> playerList = gm_->getPlayers();
     Player* temp_player = playerList[1];
     int lowestScore = temp_player->getRoundScores().at(gm_->getCurrentRound() - 1) + temp_player->getGameScore();

@@ -32,6 +32,7 @@ GameManager::GameManager() {
     legalPlays.push_back("7S");
     endGame = false;
     currentRound = 1;
+    round_ended = false;
     MEM_OFF();
 }
 
@@ -223,7 +224,7 @@ void GameManager::setNextPlayer() {
     int temp_id = current_turn->getPlayerId().player_id;
     PlayerID next_id ((temp_id % 4) + 1);
     current_turn = players[next_id];
-    if (!current_turn->getStrategy()->isHuman()) {
+    if (!current_turn->getStrategy()->isHuman() && !get_round_end() && current_turn->getHand()->numberOfCards() > 0) {
         Command c;
         current_turn->getStrategy()->play(c);
         notify();
@@ -271,4 +272,12 @@ void GameManager::rage_quit(Command c) {
     current_turn->getStrategy()->play(c);
     current_turn->getStrategy()->play(c);
     notify();
+}
+
+void GameManager::set_round_end(bool ended) {
+    round_ended = ended;
+}
+
+bool GameManager::get_round_end() {
+    return round_ended;
 }
