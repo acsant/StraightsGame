@@ -93,3 +93,7 @@ void Controller::gameStarted(bool b) {
 void Controller::resetWinnerNotification() {
     gm_->setWinnerNotification("");
 }
+
+void Controller::resetDeck() {
+    gm_->resetDeck();
+}

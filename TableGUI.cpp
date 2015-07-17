@@ -234,6 +234,7 @@ void TableGUI::resetGame() {
         (*rage_quit[i]).set_label("Human");
         (*rage_quit[i]).set_sensitive(true);
     }
+    controller->resetDeck();
     controller->gameStarted(false);
     controller->resetWinnerNotification();
 

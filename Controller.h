@@ -22,6 +22,7 @@ public:
     void removePlayers();
     void resetTableCards();
     void gameStarted(bool);
+    void resetDeck();
     void resetWinnerNotification();
 private:
     GameManager *gm_;

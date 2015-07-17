@@ -346,3 +346,7 @@ std::string GameManager::getWinnerNotification() {
 void GameManager::setWinnerNotification(std::string s) {
     winner_notification = s;
 }
+
+void GameManager::resetDeck() {
+    delete deck;
+}

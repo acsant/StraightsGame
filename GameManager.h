@@ -69,6 +69,7 @@ public:
     void resetTableCards();
     void setGameStarted(bool);
     bool getGameStarted();
+    void resetDeck();
     std::string getWinnerNotification();
     void setWinnerNotification(std::string);
     ~GameManager();

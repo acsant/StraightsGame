@@ -39,6 +39,7 @@ Deck::~Deck() {
     for (int i = 0; i < cards_.size(); i++) {
         delete cards_[i];
     }
+    cards_.clear();
     MEM_OFF();
     //delete d;
 }
