@@ -94,14 +94,14 @@ TableGUI::~TableGUI() {
 
 void TableGUI::player_buttonAction(int button) {
     Glib::ustring label = (*rage_quit[button]).get_label();
-    if (!gm_->getGameStarted())
+    if (label != "Rage!")
     {
         if (label == "Human") {
             (*rage_quit[button]).set_label("Computer");
         } else if (label == "Computer") {
             (*rage_quit[button]).set_label("Human");
         }
-    } else {
+    } else if (label == "Rage!") {
         controller->rageQuit();
     }
 
