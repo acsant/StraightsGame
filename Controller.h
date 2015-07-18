@@ -19,7 +19,7 @@ public:
     void resetRound();
     void setNewRound(bool);
     void setEndGame(bool);
-    void removePlayers();
+    void resetModel();
     void resetTableCards();
     void gameStarted(bool);
     void resetDeck();

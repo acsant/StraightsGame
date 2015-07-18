@@ -312,12 +312,16 @@ void GameManager::setNewRound(bool b) {
     new_round = b;
 }
 
-void GameManager::deletePlayers() {
+void GameManager::resetModel() {
     for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
         delete (*it).second;
     }
     players.clear();
     current_turn = NULL;
+    legalPlays.clear();
+    legalPlays.push_back("7S");
+    currentRound = 0;
+
 }
 
 void GameManager::resetTableCards() {

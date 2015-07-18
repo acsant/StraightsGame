@@ -77,8 +77,8 @@ void Controller::setEndGame(bool b) {
     gm_->setEndGame(b);
 }
 
-void Controller::removePlayers() {
-    gm_->deletePlayers();
+void Controller::resetModel() {
+    gm_->resetModel();
 }
 
 void Controller::resetTableCards() {

@@ -227,7 +227,7 @@ void TableGUI::update() {
 
 void TableGUI::resetGame() {
     resetGUI();
-    controller->removePlayers();
+    controller->resetModel();
     for (int i = 0; i < 4; i++) {
         (*player_score_label[i]).set_label("0 points");
         (*discard_label[i]).set_label("0 discards");

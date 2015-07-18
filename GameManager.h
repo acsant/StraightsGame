@@ -65,7 +65,7 @@ public:
     void checkEndGame(std::map<PlayerID, Player*>, int );
     bool isNewRound();
     void setNewRound(bool);
-    void deletePlayers();
+    void resetModel();
     void resetTableCards();
     void setGameStarted(bool);
     bool getGameStarted();
