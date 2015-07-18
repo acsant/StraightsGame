@@ -4,7 +4,7 @@
 
 #include "HumanPlayer.h"
 #include "GameManager.h"
-#include "MemCheck.h"
+
 
 HumanPlayer::HumanPlayer() {
 
@@ -15,7 +15,7 @@ HumanPlayer::~HumanPlayer() {
 }
 
 void HumanPlayer::play(Command c) {
-    MEM_ON();
+
     GameManager* gm = GameManager::getInstance();
     gm->sortCardsOnTable();
     std::map<Suit, std::vector<Rank>*> played_cards = gm->getCardsOnTable();
@@ -111,8 +111,9 @@ void HumanPlayer::play(Command c) {
         gm->addLegalPlay("7D");
         gm->addLegalPlay("7H");
     }
+    temp = NULL;
     delete temp;
-    MEM_OFF();
+
 }
 
 bool HumanPlayer::isHuman() {

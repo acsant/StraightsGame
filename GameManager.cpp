@@ -6,14 +6,14 @@
 #include "ComputerPlayer.h"
 #include "HumanPlayer.h"
 #include "algorithm"
-#include "MemCheck.h"
+
 
 int GameManager::shuffle_seed = 0;
 bool GameManager::created = false;
 GameManager * GameManager::gm = NULL;
 
 GameManager* GameManager::getInstance() {
-    MEM_ON();
+
     if (!created) {
         gm = new GameManager();
         created = true;
@@ -21,10 +21,10 @@ GameManager* GameManager::getInstance() {
     } else {
         return gm;
     }
-    MEM_OFF();
+
 }
 GameManager::GameManager() {
-    MEM_ON();
+
     for (int i = 0; i < SUIT_COUNT; i++) {
         cards_on_table.insert(std::pair<Suit, std::vector<Rank>* >(Suit(i), new std::vector<Rank>()));
     }
@@ -35,16 +35,17 @@ GameManager::GameManager() {
     currentRound = 1;
     round_ended = false;
     new_round = false;
-    MEM_OFF();
+
 }
 
 GameManager::~GameManager() {
-    MEM_ON();
+
     created = false;
     //current_turn = NULL;
     //delete current_turn;
     for (std::map<Suit, std::vector<Rank>*>::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
         delete it->second;
+        //(*it).second->clear();
     }
     for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
         //players.erase(it);
@@ -52,18 +53,18 @@ GameManager::~GameManager() {
     }
 
     delete deck;
-    MEM_OFF();
+
 }
 
 void GameManager::createGame() {
-    MEM_ON();
+
     deck = Deck::getInstance();
     deck->setSeed(shuffle_seed);
     deck->shuffle();
     round_ended = false;
     new_round = true;
     dealCards();
-    MEM_OFF();
+
 }
 
 void GameManager::setSeed(int seed_) {
@@ -71,7 +72,7 @@ void GameManager::setSeed(int seed_) {
 }
 
 void GameManager::addPlayersToGame(std::vector<Glib::ustring> type) {
-    MEM_ON();
+
     for (int i = 0; i < type.size(); i++) {
         PlayerID id;
         Player* player;
@@ -86,11 +87,11 @@ void GameManager::addPlayersToGame(std::vector<Glib::ustring> type) {
     }
     gm->createGame();
     notify();
-    MEM_OFF();
+
 }
 
 void GameManager::dealCards() {
-    MEM_ON();
+
     int num_cards = 13;
     std::vector<Card*> deck_of_cards = deck->getCards();
     int i = 0;
@@ -100,27 +101,27 @@ void GameManager::dealCards() {
         }
         i++;
     }
-    MEM_OFF();
+
 }
 
 void GameManager::setFirstPlayer(Player* firstP) {
-    MEM_ON();
+
     current_turn = firstP;
-    MEM_OFF();
+
 }
 
 void GameManager::addCardToTable(Card *card) {
-    MEM_ON();
+
     (cards_on_table.find(card->getSuit()))->second->push_back(card->getRank());
-    MEM_OFF();
+
 }
 
 void GameManager::sortCardsOnTable() {
-    MEM_ON();
+
     for (std::map<Suit, std::vector<Rank>* >::iterator it = cards_on_table.begin(); it != cards_on_table.end(); it++) {
         std::sort(it->second->begin(), it->second->end());
     }
-    MEM_OFF();
+
 }
 
 std::map<Suit, std::vector<Rank> *> GameManager::getCardsOnTable() const {
@@ -168,19 +169,19 @@ void GameManager::addLegalPlay(std::string play) {
 }
 
 bool GameManager::isLegalPlay(Card *c) {
-    MEM_ON();
+
     std::string card = indexToRank(c->getRank()) + (indexToSuit(c->getSuit())).at(0);
     for (int i = 0; i < legalPlays.size(); i++) {
         if (legalPlays.at(i) == card) {
             return true;
         }
     }
-    MEM_OFF();
+
     return false;
 }
 
 void GameManager::updateLegalCards(Card* c) {
-    MEM_ON();
+
     std::string toAddLow;
     if (c->getRank() - 1 >= 0) {
         toAddLow = indexToRank(c->getRank() - 1) + indexToSuit(c->getSuit()).at(0);
@@ -188,6 +189,7 @@ void GameManager::updateLegalCards(Card* c) {
         if (!isLegalPlay(lowCheck)) {
             legalPlays.push_back(toAddLow);
         }
+        lowCheck = NULL;
         delete lowCheck;
     }
     std::string toAddHigh;
@@ -197,9 +199,10 @@ void GameManager::updateLegalCards(Card* c) {
         if (!isLegalPlay(highCheck)) {
             legalPlays.push_back(toAddHigh);
         }
+        highCheck = NULL;
         delete highCheck;
     }
-    MEM_OFF();
+
 
 }
 
@@ -224,7 +227,7 @@ void GameManager::setEndGame(bool b) {
 }
 
 void GameManager::setNextPlayer() {
-    MEM_ON();
+
     int temp_id = current_turn->getPlayerId().player_id;
     PlayerID next_id ((temp_id % 4) + 1);
     current_turn = players[next_id];
@@ -233,12 +236,12 @@ void GameManager::setNextPlayer() {
         current_turn->getStrategy()->play(c);
         notify();
     }
-    MEM_OFF();
+
 }
 
 void GameManager::resetRound() {
     //delete deck;
-    MEM_ON();
+
     legalPlays.clear();
     legalPlays.push_back("7S");
     for (std::map<PlayerID, Player*>::iterator it = players.begin(); it != players.end(); it++) {
@@ -246,7 +249,7 @@ void GameManager::resetRound() {
         it->second->addRound();
         it->second->resetPlayer();
     }
-    MEM_OFF();
+
     if (!endGame) {
         createGame();
     }

@@ -4,7 +4,7 @@
 
 #include "ComputerPlayer.h"
 #include "GameManager.h"
-#include "MemCheck.h";
+
 
 
 ComputerPlayer::ComputerPlayer() {
@@ -12,7 +12,7 @@ ComputerPlayer::ComputerPlayer() {
 }
 
 void ComputerPlayer::play(Command c) {
-    MEM_ON();
+
     GameManager* gm = GameManager::getInstance();
     bool legalExists = false;
     Card* currentCard;
@@ -41,7 +41,7 @@ void ComputerPlayer::play(Command c) {
         gm->addLegalPlay("7H");
     }
     delete temp;
-    MEM_OFF();
+
 }
 
 ComputerPlayer::~ComputerPlayer() { }

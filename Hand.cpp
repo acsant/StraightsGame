@@ -3,7 +3,7 @@
 //
 
 #include "Hand.h"
-#include "MemCheck.h"
+
 
 Hand::Hand() {
     card_collection = std::vector<Card*>();
@@ -14,7 +14,7 @@ void Hand::insertCard(Card* toInsert) {
 }
 
 Card * Hand::removeCard(Card* toRemove) {
-    MEM_ON();
+
     for (std::vector<Card*>::iterator it = card_collection.begin(); it != card_collection.end(); it++) {
         if (*(*it) == *toRemove) {
             card_collection.erase(it);
@@ -22,26 +22,27 @@ Card * Hand::removeCard(Card* toRemove) {
         }
 
     }
-    MEM_OFF();
+
     return toRemove;
 }
 
 Hand::~Hand() {
-    MEM_ON();
+/*
     for (std::vector<Card*>::iterator it = card_collection.begin(); it != card_collection.end(); it++) {
-        delete *it;
-    }
+        //delete *it;
+        //it = NULL;
+    }*/
     card_collection.clear();
-    MEM_OFF();
+
 }
 
 std::ostream &operator<<(std::ostream & sout, const Hand & hand) {
-    MEM_ON();
+
     for (int i = 0; i < hand.card_collection.size(); i++) {
         Card *c = hand.card_collection[i];
         sout << " " << *c;
     }
-    MEM_OFF();
+
     return sout;
 }
 
@@ -63,11 +64,11 @@ bool Hand::contains (Card& c) {
 }
 
 void Hand::removeAll() {
-    MEM_ON();
+
     card_collection.clear();
     int size = card_collection.size();
     int a = size;
-    MEM_OFF();
+
 }
 
 Card* Hand::findCard(Card &card) {

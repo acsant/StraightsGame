@@ -4,12 +4,12 @@
 using namespace std;
 #include "GameManager.h"
 #include "Command.h"
-#include "MemCheck.h"
+
 #include "DeckGUI.h"
 #include <gtkmm/main.h>
 
 int main(int argc, char* argv[]) {
-    MEM_ON();
+
     GameManager* gm = GameManager::getInstance();
     Controller controller(gm);
     Gtk::Main kit( argc, argv);
@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 
     delete gm;
     */
-    MEM_OFF();
+
     return 0;
 }
 
