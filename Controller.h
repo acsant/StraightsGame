@@ -25,6 +25,7 @@ public:
     void resetDeck();
     void resetWinnerNotification();
     void resetHistory();
+    void quitGame();
 private:
     GameManager *gm_;
 };

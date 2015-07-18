@@ -31,7 +31,7 @@ TableGUI::TableGUI(Controller* c, GameManager* gm) : controller(c), gm_(gm), mai
     newGameButton.set_label("New Game");
     changeSeedButton.set_label("Change Seed Value");
     endGameButton.set_label("End Game");
-
+    endGameButton.signal_clicked().connect(sigc::mem_fun(*this, &TableGUI::quitGame));
     for (int i = 0; i < 4; i++) {
         table_row[i] = new Gtk::HBox(true, 10);
         for (int j = 0; j < 13; j++) {
@@ -340,4 +340,8 @@ void TableGUI::createDialog(std::string title, std::string msg) {
     Gtk::Button *okButton = dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
     nameLabel.show();
     dialog.run();
+}
+
+void TableGUI::quitGame() {
+    controller->quitGame();
 }

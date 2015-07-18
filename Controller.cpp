@@ -118,3 +118,7 @@ void Controller::resetDeck() {
 void Controller::resetHistory() {
     gm_->setGameHistory("");
 }
+
+void Controller::quitGame() {
+    gm_->quitGame();
+}

@@ -35,6 +35,7 @@ public:
     void resetGUI();
     void resetGame();
     void createDialog(std::string, std::string);
+    void quitGame();
     virtual ~TableGUI();
 private:
     Controller* controller;

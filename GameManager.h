@@ -74,6 +74,7 @@ public:
     std::string getWinnerNotification();
     void setWinnerNotification(std::string);
     void setGameHistory(std::string);
+    void quitGame();
     std::string getGameHistory();
     ~GameManager();
 };

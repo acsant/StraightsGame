@@ -365,3 +365,8 @@ void GameManager::setGameHistory(std::string s) {
 std::string GameManager::getGameHistory() {
     return game_history;
 }
+
+void GameManager::quitGame() {
+    delete deck;
+    exit(0);
+}
