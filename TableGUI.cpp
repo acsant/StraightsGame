@@ -175,7 +175,7 @@ void TableGUI::update() {
     //Check if game ended
     if (gm_->getEndGame()) {
         round_update = false;
-        createDialog("Game Over", "Game Has Ended.\n");
+        createDialog("Game Over", "Game Has Ended.\n" + gm_->getWinnerNotification());
         resetGame();
     }
 
