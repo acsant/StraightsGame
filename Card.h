@@ -19,6 +19,7 @@ public:
     Card(Suit, Rank);
     Suit getSuit() const;
     Rank getRank() const;
+    std::string print();
 
 private:
     Suit suit_;

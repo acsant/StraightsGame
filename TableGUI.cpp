@@ -175,14 +175,7 @@ void TableGUI::update() {
     //Check if game ended
     if (gm_->getEndGame()) {
         round_update = false;
-        Gtk::Dialog dialog("Game Over", *this, true, true);
-        Glib::ustring turn_notification = "Game Has Ended.\n" + gm_->getWinnerNotification();
-        Gtk::Label nameLabel(turn_notification);
-        Gtk::VBox *contentArea = dialog.get_vbox();
-        contentArea->pack_start(nameLabel, true, false);
-        Gtk::Button *okButton = dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
-        nameLabel.show();
-        dialog.run();
+        createDialog("Game Over", "Game Has Ended.\n");
         resetGame();
     }
 
@@ -211,14 +204,13 @@ void TableGUI::update() {
     if (gm_->isNewRound() && !gm_->getEndGame() && round_update) {
         controller->setNewRound(false);
         controller->setEndGame(false);
-        Gtk::Dialog dialog( "Notification", *this, true, true);
-        Glib::ustring turn_notification = "New round begins. It is Player " + std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
-        Gtk::Label   nameLabel( turn_notification );
-        Gtk::VBox* contentArea = dialog.get_vbox();
-        contentArea->pack_start( nameLabel, true, false );
-        Gtk::Button * okButton = dialog.add_button( Gtk::Stock::OK, Gtk::RESPONSE_OK);
-        nameLabel.show();
-        int res = dialog.run();
+        if (gm_->getGameHistory() != "") {
+            createDialog("Round History", gm_->getGameHistory());
+            controller->resetHistory();
+        }
+        std::string msg = "New round begins. It is Player " +
+                          std::to_string(gm_->getCurrentPlayer()->getPlayerId().player_id) + "'s turn.";
+        createDialog("Notification", msg);
         if (!gm_->getCurrentPlayer()->getStrategy()->isHuman()) {
             controller->play_card(0);
         }
@@ -274,14 +266,15 @@ void TableGUI::play_card(int index) {
     if (index < gm_->getCurrentPlayer()->getHand()->numberOfCards()) {
         Card card = *current_hand.at(index);
         if (gm_->has_legal() && !gm_->isLegalPlay(&card)) {
-            Gtk::Dialog dialog("ERROR", *this, true, true);
+            /*Gtk::Dialog dialog("ERROR", *this, true, true);
             Glib::ustring turn_notification = "This is not a legal play.";
             Gtk::Label nameLabel(turn_notification);
             Gtk::VBox *contentArea = dialog.get_vbox();
             contentArea->pack_start(nameLabel, true, false);
             Gtk::Button *okButton = dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
             nameLabel.show();
-            dialog.run();
+            dialog.run();*/
+            createDialog("ERROR", "This is not a legal play.");
         } else {
             controller->play_card(index);
         }
@@ -338,3 +331,13 @@ void TableGUI::updateCards(std::string player, int active_player, Hand* currentH
     }
 }
 
+void TableGUI::createDialog(std::string title, std::string msg) {
+    Gtk::Dialog dialog(title, *this, true, true);
+    Glib::ustring turn_notification = msg;
+    Gtk::Label nameLabel(turn_notification);
+    Gtk::VBox *contentArea = dialog.get_vbox();
+    contentArea->pack_start(nameLabel, true, false);
+    Gtk::Button *okButton = dialog.add_button(Gtk::Stock::OK, Gtk::RESPONSE_OK);
+    nameLabel.show();
+    dialog.run();
+}

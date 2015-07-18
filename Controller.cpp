@@ -42,28 +42,45 @@ void Controller::rageQuit() {
 
 void Controller::resetRound() {
     gm_->set_round_end(true);
+    std::string history;
     std::map<PlayerID, Player*> playerList = gm_->getPlayers();
     Player* temp_player = playerList[1];
     int lowestScore = temp_player->getRoundScores().at(gm_->getCurrentRound() - 1) + temp_player->getGameScore();
     for (std::map<PlayerID, Player*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
-        std::cout << "Player " << it->first << "'s discards:";
+        std::stringstream ss;
+        ss.str("");
+        ss << it->first;
+        history += "Player " + ss.str() + "'s discards:";
         std::vector<Card*> playerDiscards = it->second->getDiscards();
         for (int i = 0; i < playerDiscards.size(); i++) {
-            std::cout << " " << *(playerDiscards[i]);
+            history += " " + playerDiscards[i]->print();
         }
-        std::cout << std::endl;
+        history += "\n";
         std::vector<int> roundScore = it->second->getRoundScores();
         int totalScore = it->second->getGameScore() + roundScore[gm_->getCurrentRound() - 1];
         if (totalScore < lowestScore) {
             lowestScore = totalScore;
         }
-        std::cout << "Player " << it->first << "'s score: " << it->second->getGameScore() << " + " <<
-        roundScore[gm_->getCurrentRound() - 1] << " = " << totalScore << std::endl;
+        ss.str("");
+        ss << it->first;
+        std::string roundScr = ss.str();
+        ss.str("");
+        ss << it->second->getGameScore();
+        std::string gameScr = ss.str();
+        ss.str("");
+        ss << roundScore[gm_->getCurrentRound() - 1];
+        std::string scr = ss.str();
+        ss.str("");
+        ss << totalScore;
+        std::string totScore = ss.str();
+        history += "Player " + roundScr + "'s score: " + gameScr + " + " + scr + " = " + totScore + "\n";
         it->second->setGameScore(totalScore);
+        gm_->setGameHistory(history);
         if (totalScore >= 80) {
             gm_->setEndGame(true);
         }
     }
+    std::cout << history;
     gm_->checkEndGame(playerList, lowestScore);
     gm_->nextRound();
     gm_->resetRound();
@@ -96,4 +113,8 @@ void Controller::resetWinnerNotification() {
 
 void Controller::resetDeck() {
     gm_->resetDeck();
+}
+
+void Controller::resetHistory() {
+    gm_->setGameHistory("");
 }

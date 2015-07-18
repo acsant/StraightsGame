@@ -58,3 +58,12 @@ istream &operator>>(istream &in, Card &c){
     return in;
 }
 
+std::string Card::print() {
+    string suits[SUIT_COUNT] = {"C", "D", "H", "S"};
+    string ranks[RANK_COUNT] = {"A", "2", "3", "4", "5", "6",
+                                "7", "8", "9", "10", "J", "Q", "K"};
+    string toRet;
+    toRet = ranks[rank_] + suits[suit_];
+
+    return toRet;
+}

@@ -357,3 +357,11 @@ void GameManager::setWinnerNotification(std::string s) {
 void GameManager::resetDeck() {
     delete deck;
 }
+
+void GameManager::setGameHistory(std::string s) {
+    game_history = s;
+}
+
+std::string GameManager::getGameHistory() {
+    return game_history;
+}
